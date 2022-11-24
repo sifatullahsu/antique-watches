@@ -47,7 +47,8 @@ const AddProduct = () => {
         })
           .then(res => res.json())
           .then(data => {
-            toast.success('Producut added successful..')
+            toast.success('Producut added successful..');
+            reset();
           })
       })
       .catch(err => console.log(err))
@@ -56,7 +57,7 @@ const AddProduct = () => {
   return (
     <>
       <Heading
-        title='Add New Product'
+        title='Add Product'
       ></Heading>
       <form onSubmit={handleSubmit(handleAddProduct)}>
 

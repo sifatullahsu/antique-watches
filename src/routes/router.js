@@ -1,6 +1,9 @@
+import AddCategory from "../pages/AddCategory";
 import AddProduct from "../pages/AddProduct";
+import CategoriesPage from "../pages/CategoriesPage";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
+import ProductsPage from "../pages/ProductsPage";
 import RegisterPage from "../pages/RegisterPage";
 import UsersPage from "../pages/UsersPage";
 import DashTemp from "../templates/DashTemp";
@@ -40,12 +43,13 @@ export const router = createBrowserRouter([
         element: ''
       },
       {
-        path: 'add-a-product',
+        path: 'add-product',
         element: <AddProduct></AddProduct>
       },
       {
         path: 'my-products',
-        element: ''
+        element: <ProductsPage></ProductsPage>,
+        loader: () => fetch('http://localhost:5000/products')
       },
       {
         path: 'my-buyers',
@@ -60,6 +64,15 @@ export const router = createBrowserRouter([
         path: 'all-buyers',
         element: <UsersPage></UsersPage>,
         loader: () => fetch('http://localhost:5000/users?role=buyer')
+      },
+      {
+        path: 'categories',
+        element: <CategoriesPage></CategoriesPage>,
+        loader: () => fetch('http://localhost:5000/categories')
+      },
+      {
+        path: 'add-category',
+        element: <AddCategory></AddCategory>
       },
       {
         path: 'reported-items',

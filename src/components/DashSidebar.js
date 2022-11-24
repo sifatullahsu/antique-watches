@@ -26,11 +26,13 @@ const DashSidebar = () => {
         className={({ isActive }) => isActive && path === '/dashboard' ? 'active' : ''}
       >Dashboard</NavLink></li>
       <li><NavLink to='/dashboard/my-orders' >My Orders</NavLink></li>
-      <li><NavLink to='/dashboard/add-a-product' >Add A Product</NavLink></li>
+      <li><NavLink to='/dashboard/add-product' >Add Product</NavLink></li>
       <li><NavLink to='/dashboard/my-products' >My Products</NavLink></li>
       <li><NavLink to='/dashboard/my-buyers' >My Buyers</NavLink></li>
       <li><NavLink to='/dashboard/all-sellers' >All Sellers</NavLink></li>
       <li><NavLink to='/dashboard/all-buyers' >All Buyers</NavLink></li>
+      <li><NavLink to='/dashboard/categories' >Categories</NavLink></li>
+      <li><NavLink to='/dashboard/add-category' >Add Category</NavLink></li>
       <li><NavLink to='/dashboard/reported-items' >Reported Items</NavLink></li>
       <li><button onClick={handleUserLogout}>Logout</button></li>
     </ul>
