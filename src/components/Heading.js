@@ -6,7 +6,7 @@ const Heading = ({ title, text, isCenter }) => {
       <h3>{title}</h3>
       <p>{text}</p>
       <div className='seperator'></div>
-    </div>
+    </div >
   );
 };
 

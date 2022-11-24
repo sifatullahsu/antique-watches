@@ -1,3 +1,4 @@
+import AddProduct from "../pages/AddProduct";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
@@ -40,7 +41,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'add-a-product',
-        element: ''
+        element: <AddProduct></AddProduct>
       },
       {
         path: 'my-products',
