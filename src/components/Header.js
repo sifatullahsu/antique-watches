@@ -1,16 +1,40 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBars } from "react-icons/fa";
+import { AuthContext } from '../contexts/AuthContextComp';
+import toast from 'react-hot-toast';
 
 const Header = () => {
+
+  const { user, userLogout } = useContext(AuthContext);
+
+  const handleUserLogout = () => {
+    userLogout()
+      .then(result => {
+        toast.success('Logout successfull..')
+      })
+      .catch(err => {
+        toast.error('Somthing is wrong..')
+        console.log(err);
+      })
+  }
 
   const menu = () => {
     return (
       <>
         <li><Link to='/'>Home</Link></li>
-        <li><Link to='/login'>Login</Link></li>
-        <li><Link to='/register'>Register</Link></li>
-        <li><Link to='/dasgboard'>Dashboard</Link></li>
+        {
+          user?.uid ?
+            <>
+              <li><Link to='/dashboard'>Dashboard</Link></li>
+              <li><button onClick={handleUserLogout}>Logout</button></li>
+            </>
+            :
+            <>
+              <li><Link to='/login'>Login</Link></li>
+              <li><Link to='/register'>Register</Link></li>
+            </>
+        }
       </>
     );
   }

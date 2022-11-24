@@ -50,3 +50,8 @@ h3 {
   content: "";
   @apply w-16 h-1 bg-primary inline-block;
 }
+
+
+.dashboard.menu a.active {
+  @apply border-amber-400 border-l-4 !important;
+}

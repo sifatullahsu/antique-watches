@@ -37,10 +37,6 @@ const AuthContextComp = ({ children }) => {
     return false;
   }
 
-  const updateUserProfile = arg => {
-    return updateProfile(auth.currentUser, arg)
-  }
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -58,8 +54,7 @@ const AuthContextComp = ({ children }) => {
     userLogin,
     userRegister,
     userLogout,
-    userSocialLogin,
-    updateUserProfile
+    userSocialLogin
   }
 
   return (
