@@ -1,14 +1,25 @@
 import React, { useContext } from 'react';
 import { useForm } from "react-hook-form";
+import toast from 'react-hot-toast';
 import { AuthContext } from '../contexts/AuthContextComp';
 import GoogleSignIn from './GoogleSignIn';
 
 const Login = () => {
   const { userLogin } = useContext(AuthContext);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
-  const handleLogin = (data) => {
-    console.log(data);
+  const handleLogin = (formData) => {
+    const { email, password } = formData;
+
+    userLogin(email, password)
+      .then(result => {
+        toast.success('Login successfull..');
+        reset();
+      })
+      .catch(err => {
+        console.log(err);
+        toast.error('Somthing is wrong..');
+      })
 
   }
 

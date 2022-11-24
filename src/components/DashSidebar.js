@@ -1,11 +1,23 @@
 import React, { useContext } from 'react';
+import toast from 'react-hot-toast';
 import { NavLink, useLocation } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContextComp';
 
 const DashSidebar = () => {
 
   const path = useLocation().pathname;
-  const { user, userLogout } = useContext(AuthContext)
+  const { user, userLogout } = useContext(AuthContext);
+
+  const handleUserLogout = () => {
+    userLogout()
+      .then(result => {
+        toast.success('Logout successfull..')
+      })
+      .catch(err => {
+        toast.error('Somthing is wrong..')
+        console.log(err);
+      })
+  }
 
   return (
     <ul className='dashboard menu rounded-box'>
@@ -20,7 +32,7 @@ const DashSidebar = () => {
       <li><NavLink to='/dashboard/all-sellers' >All Sellers</NavLink></li>
       <li><NavLink to='/dashboard/all-buyers' >All Buyers</NavLink></li>
       <li><NavLink to='/dashboard/reported-items' >Reported Items</NavLink></li>
-      <li><button>Logout</button></li>
+      <li><button onClick={handleUserLogout}>Logout</button></li>
     </ul>
   );
 };
