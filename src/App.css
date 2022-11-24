@@ -40,6 +40,10 @@ h3 {
   @apply select select-bordered select-sm;
 }
 
+.form-control input[type='file'] {
+  @apply file-input file-input-bordered w-full max-w-xs p-0;
+}
+
 /* ============= */
 
 .heading-section>* {

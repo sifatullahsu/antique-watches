@@ -10,14 +10,47 @@ const AddProduct = () => {
   const location = useLocation();
   const date = format(new Date(), 'Pp');
   const isAddNew = location.pathname === '/dashboard/add-a-product' ? true : false;
+  const imageHostKey = process.env.REACT_APP_IMGBB_API;
 
-  const { register, handleSubmit } = useForm();
-
-
+  const { register, handleSubmit, reset } = useForm();
 
 
   const handleAddProduct = (formData) => {
+    const { name, price, condition, purchasedYear, number, location, itemStatus, advertise, description, image } = formData;
 
+    if (image[0].type !== 'image/png') {
+      return toast.error('Only image/png type is allowed');
+    }
+
+    const imageData = new FormData();
+    imageData.append('image', image[0]);
+
+    fetch(`https://api.imgbb.com/1/upload?key=${imageHostKey}`, {
+      method: 'POST',
+      body: imageData
+    })
+      .then(res => res.json())
+      .then(data => {
+        const imgURL = data.data.url;
+        const category = '';
+
+        const finalData = {
+          name, price, condition, purchasedYear, number, location, itemStatus, advertise, description, imgURL, category
+        }
+
+        fetch('http://localhost:5000/products', {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify(finalData)
+        })
+          .then(res => res.json())
+          .then(data => {
+            toast.success('Producut added successful..')
+          })
+      })
+      .catch(err => console.log(err))
   }
 
   return (
@@ -88,6 +121,13 @@ const AddProduct = () => {
         <div className="form-control">
           <label className="label"><span className="label-text">Description</span></label>
           <textarea {...register("description", { required: true })} className="textarea textarea-bordered h-24"></textarea>
+        </div>
+
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Product Image</span>
+          </label>
+          <input type="file"{...register("image", { required: true })} />
         </div>
 
         <button type="submit" className='btn btn-primary w-full mt-5'>Add Product</button>
