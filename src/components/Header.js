@@ -7,10 +7,10 @@ const Header = () => {
   const menu = () => {
     return (
       <>
-        <li><Link to=''>Home</Link></li>
-        <li><Link to=''>Login</Link></li>
-        <li><Link to=''>Register</Link></li>
-        <li><Link to=''>Dashboard</Link></li>
+        <li><Link to='/'>Home</Link></li>
+        <li><Link to='/login'>Login</Link></li>
+        <li><Link to='/register'>Register</Link></li>
+        <li><Link to='/dasgboard'>Dashboard</Link></li>
       </>
     );
   }
