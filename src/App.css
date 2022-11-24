@@ -59,3 +59,7 @@ h3 {
 .dashboard.menu a.active {
   @apply border-amber-400 border-l-4 !important;
 }
+
+.table tbody td {
+  @apply p-1;
+}

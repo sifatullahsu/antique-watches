@@ -4,6 +4,8 @@ import { format } from "date-fns";
 import toast from 'react-hot-toast';
 import { useLocation } from 'react-router-dom';
 import Heading from '../components/Heading';
+import { useQuery } from '@tanstack/react-query';
+
 
 const AddProduct = () => {
 
@@ -16,7 +18,19 @@ const AddProduct = () => {
 
 
   const handleAddProduct = (formData) => {
-    const { name, price, condition, purchasedYear, number, location, itemStatus, advertise, description, image } = formData;
+    const {
+      name,
+      price,
+      condition,
+      purchasedYear,
+      number,
+      location,
+      itemStatus,
+      advertise,
+      description,
+      image,
+      category
+    } = formData;
 
     if (image[0].type !== 'image/png') {
       return toast.error('Only image/png type is allowed');
@@ -32,7 +46,6 @@ const AddProduct = () => {
       .then(res => res.json())
       .then(data => {
         const imgURL = data.data.url;
-        const category = '';
 
         const finalData = {
           name, price, condition, purchasedYear, number, location, itemStatus, advertise, description, imgURL, category
@@ -54,6 +67,16 @@ const AddProduct = () => {
       .catch(err => console.log(err))
   }
 
+  const { data: categories = [] } = useQuery({
+    queryKey: ['categories'],
+    queryFn: async () => {
+      const res = await fetch(`http://localhost:5000/categories`);
+      const data = await res.json();
+
+      return data;
+    }
+  });
+
   return (
     <>
       <Heading
@@ -67,9 +90,19 @@ const AddProduct = () => {
         </div>
 
         <div className='grid grid-cols-3 gap-4'>
+
+        </div>
+
+        <div className='grid grid-cols-2 gap-4'>
+
           <div className="form-control">
             <label className="label"><span className="label-text">Price</span></label>
             <input type='text' {...register("price", { required: true })} />
+          </div>
+
+          <div className="form-control">
+            <label className="label"><span className="label-text">Purchased Year</span></label>
+            <input type='number' minLength='4' maxLength='4' {...register("purchasedYear", { required: true })} />
           </div>
 
           <div className="form-control">
@@ -83,12 +116,14 @@ const AddProduct = () => {
           </div>
 
           <div className="form-control">
-            <label className="label"><span className="label-text">Purchased Year</span></label>
-            <input type='number' minLength='4' maxLength='4' {...register("purchasedYear", { required: true })} />
+            <label className="label"><span className="label-text">Category</span></label>
+            <select defaultValue='unsold' {...register("category", { required: true })}>
+              <option value=''>select category..</option>
+              {
+                categories.map(category => <option value={category._id} key={category._id}>{category.catName}</option>)
+              }
+            </select>
           </div>
-        </div>
-
-        <div className='grid grid-cols-2 gap-4'>
 
           <div className="form-control">
             <label className="label"><span className="label-text">Mobile Number</span></label>
