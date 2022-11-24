@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { useLoaderData } from 'react-router-dom';
 import Heading from '../components/Heading';
@@ -9,10 +10,14 @@ const CategoriesPage = () => {
   const [itemDelete, setItemDelete] = useState(null);
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/products?delete=${id}`, {
+    fetch(`http://localhost:5000/categories?delete=${id}`, {
       method: 'DELETE',
       headers: {}
     })
+      .then(res => res.json())
+      .then(data => {
+        toast.success('Category delete successful...')
+      })
   }
 
   return (

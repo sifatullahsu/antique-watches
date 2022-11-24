@@ -60,6 +60,15 @@ h3 {
   @apply border-amber-400 border-l-4 !important;
 }
 
+.table thead th {
+  @apply px-1;
+}
+
+.table thead th:first-child,
+.table thead th:last-child {
+  @apply px-4;
+}
+
 .table tbody td {
   @apply p-1;
 }
