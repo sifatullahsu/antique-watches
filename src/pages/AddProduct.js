@@ -20,17 +20,8 @@ const AddProduct = () => {
 
   const handleAddProduct = (formData) => {
     const {
-      name,
-      price,
-      condition,
-      purchasedYear,
-      number,
-      location,
-      itemStatus,
-      advertise,
-      description,
-      image,
-      category
+      name, price, buyingPrice, condition, purchasedYear, number, location,
+      itemStatus, advertise, description, image, category
     } = formData;
 
     if (image[0].type !== 'image/png') {
@@ -49,8 +40,8 @@ const AddProduct = () => {
         const imgURL = data.data.url;
 
         const finalData = {
-          name, price, condition, purchasedYear, number, location, itemStatus, advertise, description, imgURL, category,
-          author: userProfile._id, publishedDate: date
+          name, price, buyingPrice, condition, purchasedYear, number, location, itemStatus, advertise,
+          description, imgURL, category, author: userProfile._id, publishedDate: date
         }
 
         fetch('http://localhost:5000/products', {
@@ -93,19 +84,24 @@ const AddProduct = () => {
 
         <div className='grid grid-cols-3 gap-4'>
 
-        </div>
-
-        <div className='grid grid-cols-2 gap-4'>
+          <div className="form-control">
+            <label className="label"><span className="label-text">Selling Price</span></label>
+            <input type='text' {...register("price", { required: true })} />
+          </div>
 
           <div className="form-control">
-            <label className="label"><span className="label-text">Price</span></label>
-            <input type='text' {...register("price", { required: true })} />
+            <label className="label"><span className="label-text">Buying Price</span></label>
+            <input type='text' {...register("buyingPrice", { required: true })} />
           </div>
 
           <div className="form-control">
             <label className="label"><span className="label-text">Purchased Year</span></label>
             <input type='number' minLength='4' maxLength='4' {...register("purchasedYear", { required: true })} />
           </div>
+
+        </div>
+
+        <div className='grid grid-cols-2 gap-4'>
 
           <div className="form-control">
             <label className="label"><span className="label-text">Condition</span></label>
