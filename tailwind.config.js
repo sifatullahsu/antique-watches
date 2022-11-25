@@ -16,10 +16,10 @@ module.exports = {
       'md': '768px',
       'lg': '1024px',
       'xl': '1140px'
-    },
-  },
-  daisyui: {
-    themes: ["lofi"],
+    }
   },
   plugins: [require("daisyui")],
+  daisyui: {
+    themes: ["lofi"]
+  }
 }

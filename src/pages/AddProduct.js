@@ -1,21 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
 import toast from 'react-hot-toast';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import Heading from '../components/Heading';
 import { useQuery } from '@tanstack/react-query';
+import { AuthContext } from '../contexts/AuthContextComp';
 
 
 const AddProduct = () => {
 
-  const location = useLocation();
+  // const location = useLocation();
   const date = format(new Date(), 'Pp');
-  const isAddNew = location.pathname === '/dashboard/add-a-product' ? true : false;
+  // const isAddNew = location.pathname === '/dashboard/add-a-product' ? true : false;
   const imageHostKey = process.env.REACT_APP_IMGBB_API;
 
+  const { userProfile } = useContext(AuthContext);
   const { register, handleSubmit, reset } = useForm();
-
 
   const handleAddProduct = (formData) => {
     const {
@@ -48,7 +49,8 @@ const AddProduct = () => {
         const imgURL = data.data.url;
 
         const finalData = {
-          name, price, condition, purchasedYear, number, location, itemStatus, advertise, description, imgURL, category
+          name, price, condition, purchasedYear, number, location, itemStatus, advertise, description, imgURL, category,
+          author: userProfile._id, publishedDate: date
         }
 
         fetch('http://localhost:5000/products', {

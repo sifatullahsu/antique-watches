@@ -6,7 +6,7 @@ import { AuthContext } from '../contexts/AuthContextComp';
 const DashSidebar = () => {
 
   const path = useLocation().pathname;
-  const { user, userLogout } = useContext(AuthContext);
+  const { userLogout } = useContext(AuthContext);
 
   const handleUserLogout = () => {
     userLogout()

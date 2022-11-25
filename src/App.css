@@ -2,7 +2,7 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-h2 {
+h1 {
   @apply text-5xl font-semibold;
   font-family: 'Alegreya', serif;
 }
@@ -14,6 +14,11 @@ h2 {
 
 h3 {
   @apply text-3xl font-semibold;
+  font-family: 'Alegreya', serif;
+}
+
+h4 {
+  @apply text-2xl font-semibold;
   font-family: 'Alegreya', serif;
 }
 
@@ -71,4 +76,8 @@ h3 {
 
 .table tbody td {
   @apply p-1;
+}
+
+table .toggle:checked {
+  @apply bg-yellow-500;
 }

@@ -23,7 +23,7 @@ const UsersPage = () => {
   return (
     <div>
       <Heading
-        title={users[0].role === 'seller' ? 'All Sellers' : 'All Buyers'}
+        title={users[0]?.role === 'seller' ? 'All Sellers' : 'All Buyers'}
       ></Heading>
       <div className="overflow-x-auto">
         <table className="table border w-full">
