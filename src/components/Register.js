@@ -16,7 +16,7 @@ const Register = () => {
         if (result.user.uid) {
           const uid = result.user.uid;
           const role = isSeller ? 'seller' : 'buyer';
-          const data = { name, email, image, role, uid }
+          const data = { name, email, image, role, verified: 'false', uid }
 
           fetch('http://localhost:5000/users', {
             method: 'POST',

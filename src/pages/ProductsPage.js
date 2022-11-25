@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { useLoaderData } from 'react-router-dom';
+import { FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { BsShieldFillExclamation } from 'react-icons/bs';
 import Heading from '../components/Heading';
 import ModalCom from '../components/ModalCom';
 
@@ -21,7 +22,22 @@ const ProductsPage = () => {
       })
   }
 
-  // console.log(user);
+  const handleAdvertise = (id, isAdvertise) => {
+    const data = isAdvertise === 'true' ? 'false' : 'true';
+    const update = { advertise: data }
+
+    fetch(`http://localhost:5000/products?update=${id}`, {
+      method: 'PATCH',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(update)
+    })
+      .then(res => res.json())
+      .then(data => {
+        toast.success(`Product advertise ${isAdvertise === 'true' ? 'disabled' : 'enable'} successful...`)
+      })
+  }
 
   return (
     <div>
@@ -56,6 +72,7 @@ const ProductsPage = () => {
                         type="checkbox"
                         className="toggle toggle-sm border-gray-200"
                         defaultChecked={product.advertise === 'true' ? 'checked' : undefined}
+                        onChange={() => handleAdvertise(product._id, product.advertise)}
                       />
                     </td>
                     <td className='text-right'>

@@ -4,29 +4,32 @@ import { FaCheckCircle } from 'react-icons/fa';
 import { FiMapPin } from 'react-icons/fi';
 import { TfiHeadphoneAlt } from 'react-icons/tfi';
 import { BiCategory } from 'react-icons/bi';
+import { BsShieldFillExclamation } from 'react-icons/bs';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 
-const ProductGrid = ({ product, setBuyNow }) => {
+const ProductGrid = ({ product, setBuyNow, setComplaint }) => {
 
   const {
     name, price, buyingPrice, purchasedYear, condition, categoryInfo, number,
     location, itemStatus, advertise, imgURL, authorInfo, publishedDate
   } = product;
 
-  /* 
-  picture, - Done
-  name, - Done 
-  location, - Done
-  resale price, original price, - Done
-  years of use,
-   the time when it got posted, -- Done 
-  the seller's name; if the seller is verified, there will be a blue tick next to their name and a - Done
-  Book now button - Done
-*/
+
   return (
     <div className='product border p-5 relative'>
-      <img src={imgURL} className='w-32 absolute top-0 right-0 border-l border-b' alt="" />
+      <div className='absolute top-0 right-0 flex'>
+        <div>
+
+          <div className="tooltip tooltip-bottom text-xs" data-tip="Report to admin">
+            <label
+              htmlFor="complaint-modal"
+              onClick={() => setComplaint(product)}
+            ><BsShieldFillExclamation className='m-5 text-lg text-gray-400'></BsShieldFillExclamation></label>
+          </div>
+        </div>
+        <img src={imgURL} className='w-32 border-l border-b' alt="" />
+      </div>
 
       <div className='text-xs text-gray-400'>
         <span>{formatDistanceToNowStrict(new Date(publishedDate))} ago</span>
@@ -95,7 +98,6 @@ const ProductGrid = ({ product, setBuyNow }) => {
             <div className="badge badge-success ml-5 text-xs">Item Sold</div>
         }
       </div>
-
     </div >
   );
 };

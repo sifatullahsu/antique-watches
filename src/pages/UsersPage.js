@@ -20,6 +20,23 @@ const UsersPage = () => {
       })
   }
 
+  const handleVarified = (id, isVerified) => {
+    const data = isVerified === 'true' ? 'false' : 'true';
+    const update = { verified: data }
+
+    fetch(`http://localhost:5000/users?update=${id}`, {
+      method: 'PATCH',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(update)
+    })
+      .then(res => res.json())
+      .then(data => {
+        toast.success(`User ${isVerified === 'true' ? 'unverified' : 'verified'} successful...`)
+      })
+  }
+
   return (
     <div>
       <Heading
@@ -34,6 +51,7 @@ const UsersPage = () => {
               <th>Name</th>
               <th>Email</th>
               <th>Role</th>
+              <th className='text-right'>Verified</th>
               <th className='rounded-none text-right'>Actions</th>
             </tr>
           </thead>
@@ -47,6 +65,14 @@ const UsersPage = () => {
                     <td className='font-semibold'>{user.name}</td>
                     <td>{user.email}</td>
                     <td>{user.role}</td>
+                    <td className='text-right'>
+                      <input
+                        type="checkbox"
+                        className="toggle toggle-sm border-gray-200"
+                        defaultChecked={user.verified === 'true' ? 'checked' : undefined}
+                        onChange={() => handleVarified(user._id, user.verified)}
+                      />
+                    </td>
                     <td className='text-right'>
                       <button className='btn btn-ghost btn-sm px-2'><FaEdit></FaEdit></button>
                       <label
