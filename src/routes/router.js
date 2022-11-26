@@ -2,9 +2,11 @@ import AddCategory from "../pages/AddCategory";
 import AddProduct from "../pages/AddProduct";
 import AllCategoriesPage from "../pages/AllCategoriesPage";
 import CategoriesPage from "../pages/CategoriesPage";
+import EditProduct from "../pages/EditProduct";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import MyOrderPage from "../pages/MyOrderPage";
+import MyProductsPage from "../pages/MyProductsPage";
 import ProductsPage from "../pages/ProductsPage";
 import RegisterPage from "../pages/RegisterPage";
 import ReportedItemsPage from "../pages/ReportedItemsPage";
@@ -32,7 +34,7 @@ export const router = createBrowserRouter([
       {
         path: 'categories/:id',
         element: <SingleCategoryPage></SingleCategoryPage>,
-        loader: ({ params }) => fetch(`http://localhost:5000/products/categories/${params.id}`)
+        // loader: ({ params }) => fetch(`http://localhost:5000/products/categories/${params.id}`)
       },
       {
         path: 'login',
@@ -48,6 +50,8 @@ export const router = createBrowserRouter([
     path: '/dashboard',
     element: <DashTemp></DashTemp>,
     children: [
+
+      // Default for all user role
       {
         path: '',
         element: ''
@@ -57,38 +61,41 @@ export const router = createBrowserRouter([
         element: <MyOrderPage></MyOrderPage>,
         loader: () => fetch('http://localhost:5000/orders')
       },
+
+      // For only sellers
       {
         path: 'add-product',
         element: <AddProduct></AddProduct>
       },
       {
         path: 'my-products',
-        element: <ProductsPage></ProductsPage>,
-        loader: () => fetch('http://localhost:5000/products')
+        element: <MyProductsPage></MyProductsPage>
+      },
+      {
+        path: 'my-products/:id',
+        element: <EditProduct></EditProduct>
       },
       {
         path: 'my-buyers',
         element: ''
       },
+
+      // For only admins
       {
         path: 'all-sellers',
-        element: <UsersPage></UsersPage>,
-        loader: () => fetch('http://localhost:5000/users/role/seller')
+        element: <UsersPage></UsersPage>
       },
       {
         path: 'all-buyers',
-        element: <UsersPage></UsersPage>,
-        loader: () => fetch('http://localhost:5000/users/role/buyer')
+        element: <UsersPage></UsersPage>
       },
       {
         path: 'products',
         element: <ProductsPage></ProductsPage>,
-        loader: () => fetch('http://localhost:5000/products')
       },
       {
         path: 'categories',
-        element: <CategoriesPage></CategoriesPage>,
-        loader: () => fetch('http://localhost:5000/categories')
+        element: <CategoriesPage></CategoriesPage>
       },
       {
         path: 'add-category',
@@ -96,8 +103,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'reported-items',
-        element: <ReportedItemsPage></ReportedItemsPage>,
-        loader: () => fetch('http://localhost:5000/complaints')
+        element: <ReportedItemsPage></ReportedItemsPage>
       },
     ]
   }

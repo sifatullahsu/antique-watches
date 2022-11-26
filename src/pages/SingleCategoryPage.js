@@ -1,14 +1,32 @@
+import { useQuery } from '@tanstack/react-query';
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useLocation } from 'react-router-dom';
 import Heading from '../components/Heading';
 import ProductLoop from '../components/loops/ProductLoop';
 import { AuthContext } from '../contexts/AuthContextComp';
 
 const SingleCategoryPage = () => {
-  const products = useLoaderData();
+  // const products = useLoaderData();
+
+  const propsID = useLocation()?.pathname.split('/categories/')[1];
   const { userProfile } = useContext(AuthContext);
+
+
+  const { data: products = [] } = useQuery({
+    queryKey: ['products'],
+    queryFn: async () => {
+      const res = await fetch(`http://localhost:5000/products/categories?catID=${propsID}&userID=${userProfile._id}`);
+      const data = await res.json();
+
+      return data;
+    }
+  });
+
+
+
+
 
   const [buyNow, setBuyNow] = useState(null);
   const [complaint, setComplaint] = useState(null);
@@ -114,7 +132,10 @@ const SingleCategoryPage = () => {
                   <label
                     htmlFor="book-now-modal"
                     className='btn btn-primary btn-sm text-xs'
-                    onClick={() => setBuyNow(null)}
+                    onClick={() => {
+                      setBuyNow(null);
+                      orderReset();
+                    }}
                   >Cancle</label>
                 </div>
               </div>
@@ -140,7 +161,7 @@ const SingleCategoryPage = () => {
                     <textarea {...register("reason", { required: true })} className="textarea textarea-bordered h-24"></textarea>
                   </div>
 
-                  <button type="submit" className='btn btn-primary w-full mt-5'>Report to Admin</button>
+                  <button type="submit" className='btn btn-primary btn-sm w-full mt-5'>Report to Admin</button>
 
                 </form>
                 <div className="modal-action">

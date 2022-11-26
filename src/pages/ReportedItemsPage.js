@@ -1,12 +1,25 @@
-import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
-import { useLoaderData } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Heading from '../components/Heading';
 import ModalCom from '../components/ModalCom';
 
 const ReportedItemsPage = () => {
-  const complaints = useLoaderData();
+
+  const location = useLocation();
+
+  const { data: complaints = [], isLoading, isError, refetch } = useQuery({
+    queryKey: ['complaints', location],
+    queryFn: async () => {
+      const res = await fetch(`http://localhost:5000/complaints`);
+      const data = await res.json();
+
+      return data;
+    }
+  });
+
   const [itemDelete, setItemDelete] = useState(null);
 
   const handleDelete = (id) => {
@@ -16,8 +29,21 @@ const ReportedItemsPage = () => {
     })
       .then(res => res.json())
       .then(data => {
-        toast.success('Complaint delete successful...')
+        toast.success('Complaint delete successful...');
+        refetch();
       })
+  }
+
+  if (isLoading) {
+    return (
+      <div className='p-10 bg-primary' >loading</div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div>Check your inyernet connection..</div>
+    );
   }
 
   return (

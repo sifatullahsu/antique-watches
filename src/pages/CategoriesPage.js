@@ -1,12 +1,22 @@
+import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
-import { useLoaderData } from 'react-router-dom';
 import Heading from '../components/Heading';
 import ModalCom from '../components/ModalCom';
 
 const CategoriesPage = () => {
-  const categories = useLoaderData();
+
+  const { data: categories = [], isLoading, refetch } = useQuery({
+    queryKey: ['categories'],
+    queryFn: async () => {
+      const res = await fetch(`http://localhost:5000/categories`);
+      const data = await res.json();
+
+      return data;
+    }
+  });
+
   const [itemDelete, setItemDelete] = useState(null);
 
   const handleDelete = (id) => {
@@ -16,8 +26,16 @@ const CategoriesPage = () => {
     })
       .then(res => res.json())
       .then(data => {
-        toast.success('Category delete successful...')
+        toast.success('Category delete successful...');
+        refetch();
       })
+  }
+
+
+  if (isLoading) {
+    return (
+      <div>loading</div>
+    );
   }
 
   return (

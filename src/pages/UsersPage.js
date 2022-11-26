@@ -1,12 +1,30 @@
+import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
-import { useLoaderData } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Heading from '../components/Heading';
 import ModalCom from '../components/ModalCom';
 
 const UsersPage = () => {
-  const users = useLoaderData();
+
+  const path = useLocation().pathname;
+
+  let role = '';
+  if (path === '/dashboard/all-sellers') role = 'seller';
+  else if (path === '/dashboard/all-buyers') role = 'buyer';
+
+  const { data: users = [], isLoading, refetch } = useQuery({
+    queryKey: ['users', role],
+    queryFn: async () => {
+      const res = await fetch(`http://localhost:5000/users/role/${role}`);
+      const data = await res.json();
+
+      return data;
+    }
+  });
+
+
   const [itemDelete, setItemDelete] = useState(null);
 
   const handleDelete = (id) => {
@@ -16,7 +34,8 @@ const UsersPage = () => {
     })
       .then(res => res.json())
       .then(data => {
-        toast.success('User delete successful...')
+        toast.success('User delete successful...');
+        refetch();
       })
   }
 
@@ -33,8 +52,16 @@ const UsersPage = () => {
     })
       .then(res => res.json())
       .then(data => {
-        toast.success(`User ${isVerified === 'true' ? 'unverified' : 'verified'} successful...`)
+        toast.success(`User ${isVerified === 'true' ? 'unverified' : 'verified'} successful...`);
+        refetch();
       })
+  }
+
+
+  if (isLoading) {
+    return (
+      <div>loading</div>
+    );
   }
 
   return (

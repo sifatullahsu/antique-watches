@@ -1,23 +1,19 @@
+import { useQuery } from '@tanstack/react-query';
 import React, { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useLoaderData } from 'react-router-dom';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import Heading from '../components/Heading';
 import ModalCom from '../components/ModalCom';
 import { AuthContext } from '../contexts/AuthContextComp';
-import { useQuery } from '@tanstack/react-query';
 
-
-const ProductsPage = () => {
-  // const products = useLoaderData();
-
-
+const MyProductsPage = () => {
   const { userProfile } = useContext(AuthContext);
 
   const { data: products = [], isLoading, refetch } = useQuery({
     queryKey: ['products'],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/products/`);
+      const res = await fetch(`http://localhost:5000/products/email/${userProfile._id}`);
       const data = await res.json();
 
       return data;
@@ -67,7 +63,7 @@ const ProductsPage = () => {
   return (
     <div>
       <Heading
-        title='All Products'
+        title='My Products'
       ></Heading>
       <div className="overflow-x-auto">
         <table className="table border w-full">
@@ -76,7 +72,6 @@ const ProductsPage = () => {
               <th className='rounded-none'>No.</th>
               <th>Image</th>
               <th>Name</th>
-              <th>Author</th>
               <th>Status</th>
               <th className='text-right'>Advertise</th>
               <th className='rounded-none text-right'>Actions</th>
@@ -90,7 +85,6 @@ const ProductsPage = () => {
                     <th>{index + 1}</th>
                     <td><img className='w-14 border' src={product.imgURL} alt="" /></td>
                     <td className='font-semibold'>{product.name}</td>
-                    <td>{product.author}</td>
                     <td><span
                       className={`text-white px-3 py-1 text-xs uppercase rounded-full ${product.itemStatus === 'unsold' ? 'bg-red-600' : 'bg-green-600'}`}
                     >{product.itemStatus}</span></td>
@@ -103,7 +97,9 @@ const ProductsPage = () => {
                       />
                     </td>
                     <td className='text-right'>
-                      <button className='btn btn-ghost btn-sm px-2'><FaEdit></FaEdit></button>
+                      <Link to={`/dashboard/my-products/${product._id}`} className='btn btn-ghost btn-sm px-2'>
+                        <FaEdit></FaEdit>
+                      </Link>
                       <label
                         htmlFor="delete-modal"
                         className='btn btn-ghost btn-sm px-2'
@@ -134,4 +130,4 @@ const ProductsPage = () => {
   );
 };
 
-export default ProductsPage;
+export default MyProductsPage;

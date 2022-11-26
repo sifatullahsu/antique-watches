@@ -2,17 +2,16 @@ import React, { useContext } from 'react';
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
 import toast from 'react-hot-toast';
-// import { useLocation } from 'react-router-dom';
 import Heading from '../components/Heading';
 import { useQuery } from '@tanstack/react-query';
 import { AuthContext } from '../contexts/AuthContextComp';
-
+import { useNavigate } from 'react-router-dom';
 
 const AddProduct = () => {
 
-  // const location = useLocation();
+  const navigate = useNavigate();
   const date = format(new Date(), 'Pp');
-  // const isAddNew = location.pathname === '/dashboard/add-a-product' ? true : false;
+
   const imageHostKey = process.env.REACT_APP_IMGBB_API;
 
   const { userProfile } = useContext(AuthContext);
@@ -20,9 +19,10 @@ const AddProduct = () => {
 
   const handleAddProduct = (formData) => {
     const {
-      name, price, buyingPrice, condition, purchasedYear, number, location,
-      itemStatus, advertise, description, image, category
+      name, price, buyingPrice, condition, purchasedYear, number, location, description, image, category
     } = formData;
+
+    console.log(image);
 
     if (image[0].type !== 'image/png') {
       return toast.error('Only image/png type is allowed');
@@ -40,7 +40,7 @@ const AddProduct = () => {
         const imgURL = data.data.url;
 
         const finalData = {
-          name, price, buyingPrice, condition, purchasedYear, number, location, itemStatus, advertise,
+          name, price, buyingPrice, condition, purchasedYear, number, location, itemStatus: 'unsold', advertise: 'false',
           description, imgURL, category, author: userProfile._id, publishedDate: date
         }
 
@@ -55,6 +55,7 @@ const AddProduct = () => {
           .then(data => {
             toast.success('Producut added successful..');
             reset();
+            navigate('/dashboard/my-products')
           })
       })
       .catch(err => console.log(err))
@@ -115,7 +116,7 @@ const AddProduct = () => {
 
           <div className="form-control">
             <label className="label"><span className="label-text">Category</span></label>
-            <select defaultValue='unsold' {...register("category", { required: true })}>
+            <select {...register("category", { required: true })} >
               <option value=''>select category..</option>
               {
                 categories.map(category => <option value={category._id} key={category._id}>{category.catName}</option>)
@@ -133,28 +134,11 @@ const AddProduct = () => {
             <input type='text' {...register("location", { required: true })} />
           </div>
 
-          <div className="form-control">
-            <label className="label"><span className="label-text">Item Status</span></label>
-            <select defaultValue='unsold' {...register("itemStatus", { required: true })}>
-              <option value=''>select status..</option>
-              <option value='unsold'>Unsold</option>
-              <option value='sold'>Sold</option>
-            </select>
-          </div>
-
-          <div className="form-control">
-            <label className="label"><span className="label-text">Advertise</span></label>
-            <select defaultValue={false} {...register("advertise", { required: true })}>
-              <option value=''>select advertise..</option>
-              <option value={true}>Enable</option>
-              <option value={false}>Disable</option>
-            </select>
-          </div>
         </div>
 
         <div className="form-control">
           <label className="label"><span className="label-text">Description</span></label>
-          <textarea {...register("description", { required: true })} className="textarea textarea-bordered h-24"></textarea>
+          <textarea  {...register("description", { required: true })} className="textarea textarea-bordered h-24" ></textarea>
         </div>
 
         <div className="form-control">
