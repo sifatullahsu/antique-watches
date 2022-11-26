@@ -5,10 +5,12 @@ import toast from 'react-hot-toast';
 import Heading from '../components/Heading';
 import { useQuery } from '@tanstack/react-query';
 import { AuthContext } from '../contexts/AuthContextComp';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import DashLoading from '../components/DashLoading';
 
 const AddProduct = () => {
 
+  const location = useLocation();
   const navigate = useNavigate();
   const date = format(new Date(), 'Pp');
 
@@ -16,6 +18,16 @@ const AddProduct = () => {
 
   const { userProfile } = useContext(AuthContext);
   const { register, handleSubmit, reset } = useForm();
+
+  const { data: categories = [], isLoading } = useQuery({
+    queryKey: ['categories', location],
+    queryFn: async () => {
+      const res = await fetch(`http://localhost:5000/categories`);
+      const data = await res.json();
+
+      return data;
+    }
+  });
 
   const handleAddProduct = (formData) => {
     const {
@@ -61,15 +73,13 @@ const AddProduct = () => {
       .catch(err => console.log(err))
   }
 
-  const { data: categories = [] } = useQuery({
-    queryKey: ['categories'],
-    queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/categories`);
-      const data = await res.json();
 
-      return data;
-    }
-  });
+
+  if (isLoading) {
+    return (
+      <DashLoading></DashLoading>
+    );
+  }
 
   return (
     <>

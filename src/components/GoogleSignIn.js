@@ -4,24 +4,42 @@ import { AuthContext } from '../contexts/AuthContextComp';
 import { toast } from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
 
-const GoogleSignIn = ({ from, setLoading }) => {
+const GoogleSignIn = ({ from }) => {
   const { userSocialLogin } = useContext(AuthContext);
   // const navigate = useNavigate();
 
 
   const handleGoogleSignIn = () => {
-
-    setLoading(true);
-
     userSocialLogin('google')
       .then(res => {
-        toast.success('Successfully logged in!!');
+        const user = {
+          name: res.user.displayName,
+          email: res.user.email,
+          image: res.user.photoURL,
+          role: 'buyer',
+          verified: 'false',
+          uid: res.user.uid
+        }
+
+        fetch('http://localhost:5000/users/social', {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify(user)
+        })
+          .then(res => res.json())
+          .then(data => {
+            if (data.acknowledged) {
+              toast.success('Successfully logged in!!');
+            }
+          })
       })
       .catch(err => {
-        setLoading(false);
         toast.error('Something is wrong!!');
       })
   }
+
 
   return (
     <>

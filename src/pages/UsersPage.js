@@ -3,19 +3,21 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
+import DashLoading from '../components/DashLoading';
 import Heading from '../components/Heading';
 import ModalCom from '../components/ModalCom';
 
 const UsersPage = () => {
 
-  const path = useLocation().pathname;
+  const location = useLocation();
+  const path = location.pathname;
 
   let role = '';
   if (path === '/dashboard/all-sellers') role = 'seller';
   else if (path === '/dashboard/all-buyers') role = 'buyer';
 
   const { data: users = [], isLoading, refetch } = useQuery({
-    queryKey: ['users', role],
+    queryKey: ['users', role, location],
     queryFn: async () => {
       const res = await fetch(`http://localhost:5000/users/role/${role}`);
       const data = await res.json();
@@ -60,7 +62,7 @@ const UsersPage = () => {
 
   if (isLoading) {
     return (
-      <div>loading</div>
+      <DashLoading></DashLoading>
     );
   }
 
@@ -101,7 +103,7 @@ const UsersPage = () => {
                       />
                     </td>
                     <td className='text-right'>
-                      <button className='btn btn-ghost btn-sm px-2'><FaEdit></FaEdit></button>
+                      {/* <button className='btn btn-ghost btn-sm px-2'><FaEdit></FaEdit></button> */}
                       <label
                         htmlFor="delete-modal"
                         className='btn btn-ghost btn-sm px-2'

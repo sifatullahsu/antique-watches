@@ -2,20 +2,21 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useLoaderData, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Heading from '../components/Heading';
+import Loading from '../components/Loading';
 import ProductLoop from '../components/loops/ProductLoop';
 import { AuthContext } from '../contexts/AuthContextComp';
 
 const SingleCategoryPage = () => {
-  // const products = useLoaderData();
 
-  const propsID = useLocation()?.pathname.split('/categories/')[1];
+  const location = useLocation();
+  const propsID = location?.pathname.split('/categories/')[1];
   const { userProfile } = useContext(AuthContext);
 
 
-  const { data: products = [] } = useQuery({
-    queryKey: ['products'],
+  const { data: products = [], isLoading } = useQuery({
+    queryKey: ['products', location],
     queryFn: async () => {
       const res = await fetch(`http://localhost:5000/products/categories?catID=${propsID}&userID=${userProfile._id}`);
       const data = await res.json();
@@ -23,9 +24,6 @@ const SingleCategoryPage = () => {
       return data;
     }
   });
-
-
-
 
 
   const [buyNow, setBuyNow] = useState(null);
@@ -64,6 +62,13 @@ const SingleCategoryPage = () => {
         toast.success('Booking successful..');
         orderReset();
       })
+  }
+
+
+  if (isLoading) {
+    return (
+      <Loading></Loading>
+    );
   }
 
 

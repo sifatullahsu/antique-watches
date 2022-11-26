@@ -86,3 +86,60 @@ h5 {
 table .toggle:checked {
   @apply bg-yellow-500;
 }
+
+
+
+
+
+
+/* Loader */
+
+.lds-dual-ring {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #FBBF24;
+  border-color: #FBBF24 transparent #FBBF24 transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+
+.dash-loader .lds-dual-ring {
+  height: unset;
+  width: unset;
+}
+
+.dash-loader .lds-dual-ring:after {
+  margin: unset;
+  width: 24px;
+  height: 24px;
+}
+
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+.loding {
+  @apply h-full flex items-center justify-center p-5 text-primary text-[84px] font-bold;
+  font-family: 'Alegreya', serif;
+}
+
+.myfont {
+  font-family: 'Alegreya', serif;
+
+}

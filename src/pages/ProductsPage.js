@@ -1,21 +1,19 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { useLoaderData } from 'react-router-dom';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import Heading from '../components/Heading';
 import ModalCom from '../components/ModalCom';
-import { AuthContext } from '../contexts/AuthContextComp';
 import { useQuery } from '@tanstack/react-query';
+import { Link, useLocation } from 'react-router-dom';
+import DashLoading from '../components/DashLoading';
 
 
 const ProductsPage = () => {
-  // const products = useLoaderData();
 
-
-  const { userProfile } = useContext(AuthContext);
+  const location = useLocation();
 
   const { data: products = [], isLoading, refetch } = useQuery({
-    queryKey: ['products'],
+    queryKey: ['products', location],
     queryFn: async () => {
       const res = await fetch(`http://localhost:5000/products/`);
       const data = await res.json();
@@ -60,7 +58,7 @@ const ProductsPage = () => {
 
   if (isLoading) {
     return (
-      <div>loading</div>
+      <DashLoading></DashLoading>
     );
   }
 
@@ -103,7 +101,9 @@ const ProductsPage = () => {
                       />
                     </td>
                     <td className='text-right'>
-                      <button className='btn btn-ghost btn-sm px-2'><FaEdit></FaEdit></button>
+                      <Link to={`/dashboard/products/${product._id}`} className='btn btn-ghost btn-sm px-2'>
+                        <FaEdit></FaEdit>
+                      </Link>
                       <label
                         htmlFor="delete-modal"
                         className='btn btn-ghost btn-sm px-2'

@@ -2,16 +2,18 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import DashLoading from '../components/DashLoading';
 import Heading from '../components/Heading';
 import ModalCom from '../components/ModalCom';
 import { AuthContext } from '../contexts/AuthContextComp';
 
 const MyProductsPage = () => {
   const { userProfile } = useContext(AuthContext);
+  const location = useLocation();
 
   const { data: products = [], isLoading, refetch } = useQuery({
-    queryKey: ['products'],
+    queryKey: ['products', location],
     queryFn: async () => {
       const res = await fetch(`http://localhost:5000/products/email/${userProfile._id}`);
       const data = await res.json();
@@ -56,7 +58,7 @@ const MyProductsPage = () => {
 
   if (isLoading) {
     return (
-      <div>loading</div>
+      <DashLoading></DashLoading>
     );
   }
 

@@ -1,26 +1,33 @@
-import React, { useContext } from 'react';
-import { format } from "date-fns";
+import React from 'react';
 import toast from 'react-hot-toast';
 import Heading from '../components/Heading';
 import { useQuery } from '@tanstack/react-query';
-import { AuthContext } from '../contexts/AuthContextComp';
 import { useLocation, useNavigate } from 'react-router-dom';
+import DashLoading from '../components/DashLoading';
 
 const EditProduct = () => {
 
-  const { userProfile } = useContext(AuthContext);
-
   const navigate = useNavigate();
   const location = useLocation();
-  const id = location.pathname.split('/dashboard/my-products/')[1];
+  const id = location.pathname.split('/dashboard/my-products/')[1] || location.pathname.split('/dashboard/products/')[1];
 
-  const date = format(new Date(), 'Pp');
+
   const imageHostKey = process.env.REACT_APP_IMGBB_API;
 
-  const { data: query = {} } = useQuery({
+  const { data: query = {}, isLoading } = useQuery({
     queryKey: ['query', location],
     queryFn: async () => {
       const res = await fetch(`http://localhost:5000/products/id/${id}`);
+      const data = await res.json();
+
+      return data;
+    }
+  });
+
+  const { data: categories = [] } = useQuery({
+    queryKey: ['categories'],
+    queryFn: async () => {
+      const res = await fetch(`http://localhost:5000/categories`);
       const data = await res.json();
 
       return data;
@@ -88,18 +95,11 @@ const EditProduct = () => {
     }
   }
 
-
-
-
-  const { data: categories = [] } = useQuery({
-    queryKey: ['categories'],
-    queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/categories`);
-      const data = await res.json();
-
-      return data;
-    }
-  });
+  if (isLoading) {
+    return (
+      <DashLoading></DashLoading>
+    );
+  }
 
   return (
     <>

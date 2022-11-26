@@ -2,6 +2,7 @@ import AddCategory from "../pages/AddCategory";
 import AddProduct from "../pages/AddProduct";
 import AllCategoriesPage from "../pages/AllCategoriesPage";
 import CategoriesPage from "../pages/CategoriesPage";
+import EditCategory from "../pages/EditCategory";
 import EditProduct from "../pages/EditProduct";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
@@ -33,8 +34,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'categories/:id',
-        element: <SingleCategoryPage></SingleCategoryPage>,
-        // loader: ({ params }) => fetch(`http://localhost:5000/products/categories/${params.id}`)
+        element: <SingleCategoryPage></SingleCategoryPage>
       },
       {
         path: 'login',
@@ -58,8 +58,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'my-orders',
-        element: <MyOrderPage></MyOrderPage>,
-        loader: () => fetch('http://localhost:5000/orders')
+        element: <MyOrderPage></MyOrderPage>
       },
 
       // For only sellers
@@ -91,15 +90,23 @@ export const router = createBrowserRouter([
       },
       {
         path: 'products',
-        element: <ProductsPage></ProductsPage>,
+        element: <ProductsPage></ProductsPage>
+      },
+      {
+        path: 'products/:id',
+        element: <EditProduct></EditProduct>
+      },
+      {
+        path: 'add-category',
+        element: <AddCategory></AddCategory>
       },
       {
         path: 'categories',
         element: <CategoriesPage></CategoriesPage>
       },
       {
-        path: 'add-category',
-        element: <AddCategory></AddCategory>
+        path: 'categories/:id',
+        element: <EditCategory></EditCategory>
       },
       {
         path: 'reported-items',
