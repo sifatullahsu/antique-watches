@@ -1,9 +1,11 @@
 import AddCategory from "../pages/AddCategory";
 import AddProduct from "../pages/AddProduct";
 import AllCategoriesPage from "../pages/AllCategoriesPage";
+import BlogPage from "../pages/BlogPage";
 import CategoriesPage from "../pages/CategoriesPage";
 import EditCategory from "../pages/EditCategory";
 import EditProduct from "../pages/EditProduct";
+import ErrorPage from "../pages/ErrorPage";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import MyOrderPage from "../pages/MyOrderPage";
@@ -26,6 +28,10 @@ export const router = createBrowserRouter([
       {
         path: '',
         element: <HomePage></HomePage>
+      },
+      {
+        path: 'blog',
+        element: <BlogPage></BlogPage>
       },
       {
         path: 'categories',
@@ -113,5 +119,9 @@ export const router = createBrowserRouter([
         element: <ReportedItemsPage></ReportedItemsPage>
       },
     ]
+  },
+  {
+    path: '/*',
+    element: <ErrorPage></ErrorPage>
   }
 ]);

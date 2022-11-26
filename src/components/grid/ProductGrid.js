@@ -8,13 +8,14 @@ import { BsShieldFillExclamation } from 'react-icons/bs';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 
-const ProductGrid = ({ product, setBuyNow, setComplaint }) => {
+const ProductGrid = ({ product, orderedIds, setBuyNow, setComplaint }) => {
 
   const {
-    name, price, buyingPrice, purchasedYear, condition, categoryInfo, number,
+    _id, name, price, buyingPrice, purchasedYear, condition, categoryInfo, number,
     location, itemStatus, advertise, imgURL, authorInfo, publishedDate
   } = product;
 
+  const isOrdered = orderedIds.filter(ids => ids.productID === _id).length > 0 ? true : false;
 
   return (
     <div className='product border p-5 relative'>
@@ -88,14 +89,24 @@ const ProductGrid = ({ product, setBuyNow, setComplaint }) => {
           </div>
         </div>
         {
-          itemStatus === 'unsold' ?
-            <label
-              htmlFor="book-now-modal"
-              className='btn btn-primary btn-sm text-xs'
-              onClick={() => setBuyNow(product)}
-            >Book now</label>
-            :
-            <div className="badge badge-success ml-5 text-xs">Item Sold</div>
+          itemStatus === 'unsold' && !isOrdered &&
+          <label
+            htmlFor="book-now-modal"
+            className='btn btn-primary btn-sm text-xs'
+            onClick={() => setBuyNow(product)}
+          >Book now</label>
+        }
+        {
+          itemStatus === 'unsold' && isOrdered &&
+          <div className='text-right'>
+            <div className="badge badge-info text-xs">booked</div>
+            <div className='text-xs text-secondary font-medium'>Payment Incomplete</div>
+            <button className="btn btn-link p-0 h-0 min-h-0">pay</button>
+          </div>
+        }
+        {
+          itemStatus === 'sold' &&
+          <div className="badge badge-success ml-5 text-xs">Item Sold</div>
         }
       </div>
     </div >

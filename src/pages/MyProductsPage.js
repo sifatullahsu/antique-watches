@@ -96,6 +96,7 @@ const MyProductsPage = () => {
                         className="toggle toggle-sm border-gray-200"
                         defaultChecked={product.advertise === 'true' ? 'checked' : undefined}
                         onChange={() => handleAdvertise(product._id, product.advertise)}
+                        disabled={product.itemStatus === 'unsold' ? false : true}
                       />
                     </td>
                     <td className='text-right'>

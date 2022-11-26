@@ -1,7 +1,7 @@
 import React from 'react';
 import ProductGrid from '../grid/ProductGrid';
 
-const ProductLoop = ({ products, setBuyNow, setComplaint }) => {
+const ProductLoop = ({ products, orderedIds, setBuyNow, setComplaint }) => {
 
   return (
     <div className='grid grid-cols-2 gap-5'>
@@ -9,6 +9,7 @@ const ProductLoop = ({ products, setBuyNow, setComplaint }) => {
         products.map(product => <ProductGrid
           key={product._id}
           product={product}
+          orderedIds={orderedIds}
           setBuyNow={setBuyNow}
           setComplaint={setComplaint}
         ></ProductGrid>)

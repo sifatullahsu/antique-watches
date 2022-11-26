@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useLocation } from 'react-router-dom';
@@ -15,15 +15,34 @@ const SingleCategoryPage = () => {
   const { userProfile } = useContext(AuthContext);
 
 
-  const { data: products = [], isLoading } = useQuery({
-    queryKey: ['products', location],
-    queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/products/categories?catID=${propsID}&userID=${userProfile._id}`);
-      const data = await res.json();
+  const [isLoading, setIsLoading] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [orderedIds, setOrderIds] = useState([]);
 
-      return data;
+  useEffect(() => {
+    setIsLoading(true);
+
+    if (userProfile?._id) {
+      fetch(`http://localhost:5000/products/categories?catID=${propsID}&userID=${userProfile._id}`)
+        .then(res => res.json())
+        .then(data => {
+          setProducts(data);
+          setIsLoading(false);
+        })
     }
-  });
+  }, [userProfile, propsID, orderedIds]);
+
+  useEffect(() => {
+    if (userProfile?._id) {
+      fetch(`http://localhost:5000/orders/get-ordered-projects-ids/${userProfile._id}`)
+        .then(res => res.json())
+        .then(data => {
+          setOrderIds(data);
+        })
+    }
+  }, [userProfile]);
+
+
 
 
   const [buyNow, setBuyNow] = useState(null);
@@ -79,7 +98,7 @@ const SingleCategoryPage = () => {
           title="Categories"
           text="All categories listed on Antique Watches"
         ></Heading>
-        <ProductLoop products={products} setBuyNow={setBuyNow} setComplaint={setComplaint}></ProductLoop>
+        <ProductLoop products={products} orderedIds={orderedIds} setBuyNow={setBuyNow} setComplaint={setComplaint}></ProductLoop>
 
         {
           buyNow?._id &&
