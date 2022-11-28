@@ -1,30 +1,79 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { FaEdit, FaTrashAlt } from 'react-icons/fa';
-import { useLocation } from 'react-router-dom';
-import DashLoading from '../components/DashLoading';
+import { FaTrashAlt } from 'react-icons/fa';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Heading from '../components/Heading';
+import Loading from '../components/Loading';
 import ModalCom from '../components/ModalCom';
+import { AuthContext } from '../contexts/AuthContextComp';
 
 const UsersPage = () => {
 
+  const { user, userProfile, userLoading } = useContext(AuthContext);
+
+  const navigate = useNavigate();
   const location = useLocation();
   const path = location.pathname;
+
 
   let role = '';
   if (path === '/dashboard/all-sellers') role = 'seller';
   else if (path === '/dashboard/all-buyers') role = 'buyer';
 
-  const { data: users = [], isLoading, refetch } = useQuery({
-    queryKey: ['users', role, location],
-    queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/users/role/${role}`);
-      const data = await res.json();
 
-      return data;
+  const { data: users = [], isLoading, refetch } = useQuery({
+    queryKey: ['users', role, location, user],
+    queryFn: async () => {
+
+      if (user?.uid) {
+        const email = user.email;
+        const res = await fetch(`http://localhost:5000/users/role/${role}`, {
+          method: 'GET',
+          headers: {
+            authorization: `Bearer ${localStorage.getItem('antique-token')}`,
+            email: email
+          }
+        });
+
+        if (res.status === 401 || res.status === 403) {
+          toast.error('Unauthorized Access..');
+          navigate('/login');
+          return [];
+        }
+
+        const data = await res.json();
+        return data;
+      }
+
+      return []
     }
   });
+
+
+
+
+  /*   useEffect(() => {
+      fetch(`http://localhost:5000/users/role/${role}`, {
+        method: 'GET',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('antique-token')}`,
+          email: user.email
+        }
+      })
+        .then(res => {
+          if (res.status === 401 || res.status === 403) {
+            toast.error('Unauthorized Access..');
+            navigate('/login');
+            return [];
+          }
+        })
+        .then(data => {
+          console.log(data);
+        })
+  
+    }, [user]) */
+
 
 
   const [itemDelete, setItemDelete] = useState(null);
@@ -60,9 +109,9 @@ const UsersPage = () => {
   }
 
 
-  if (isLoading) {
+  if (isLoading || userLoading) {
     return (
-      <DashLoading></DashLoading>
+      <Loading></Loading>
     );
   }
 

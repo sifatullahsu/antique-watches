@@ -3,8 +3,8 @@ import React, { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaTrashAlt } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
-import DashLoading from '../components/DashLoading';
 import Heading from '../components/Heading';
+import Loading from '../components/Loading';
 import ModalCom from '../components/ModalCom';
 import { AuthContext } from '../contexts/AuthContextComp';
 
@@ -46,7 +46,7 @@ const MyOrderPage = () => {
 
   if (isLoading) {
     return (
-      <DashLoading></DashLoading>
+      <Loading></Loading>
     );
   }
 
@@ -72,7 +72,7 @@ const MyOrderPage = () => {
               <tbody>
                 {
                   orders?.map((order, index) => {
-
+                    console.log(order);
                     return (
                       <tr key={order._id}>
                         <th>{index + 1}</th>
@@ -82,10 +82,22 @@ const MyOrderPage = () => {
                           className={`text-white px-3 py-1 text-xs uppercase rounded-full ${order.productInfo.itemStatus === 'unsold' ? 'bg-red-600' : 'bg-green-600'}`}
                         >{order.productInfo.itemStatus}</span></td>
                         <td className='text-right'>
-                          <Link
-                            className='btn btn-primary btn-sm text-xs py-1'
-                            to={`/dashboard/checkout/${order._id}`}
-                          >Pay Now</Link>
+                          {
+                            order.productInfo.itemStatus === 'unsold' &&
+                            <Link
+                              className='btn btn-primary btn-sm text-xs py-1'
+                              to={`/dashboard/checkout/${order._id}`}
+                            >Pay Now</Link>
+                          }
+                          {
+                            order.productInfo.itemStatus === 'sold' && order.userID === order?.purchased?.userID &&
+                            <span className='text-white px-3 py-1 text-xs uppercase rounded-full bg-green-600'>Purchased</span>
+                          }
+                          {
+                            order.productInfo.itemStatus === 'sold' && order.userID !== order?.purchased?.userID &&
+                            <span className='text-white px-3 py-1 text-xs uppercase rounded-full bg-red-600'>Canceled</span>
+                          }
+
                         </td>
                         <td className='text-right'>
                           <label

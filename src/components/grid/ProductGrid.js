@@ -7,6 +7,9 @@ import { BiCategory } from 'react-icons/bi';
 import { BsShieldFillExclamation } from 'react-icons/bs';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
+import { PhotoProvider, PhotoView } from 'react-photo-view';
+import 'react-photo-view/dist/react-photo-view.css';
+
 
 const ProductGrid = ({ product, setBuyNow, setComplaint, userProfile }) => {
 
@@ -28,7 +31,12 @@ const ProductGrid = ({ product, setBuyNow, setComplaint, userProfile }) => {
             ><BsShieldFillExclamation className='m-5 text-lg text-gray-400'></BsShieldFillExclamation></label>
           </div>
         </div>
-        <img src={imgURL} className='w-24 lg:w-32 border-l border-b' alt="" />
+        <PhotoProvider>
+          <PhotoView src={imgURL}>
+            <img src={imgURL} className='w-24 lg:w-32 border-l border-b' alt="" />
+          </PhotoView>
+        </PhotoProvider>
+
       </div>
 
       <div className='text-xs text-gray-400 mb-6 lg:mb-0'>
@@ -100,7 +108,7 @@ const ProductGrid = ({ product, setBuyNow, setComplaint, userProfile }) => {
           <div className='text-right'>
             <div className="badge badge-info text-xs">booked</div>
             <div className='text-xs text-accent font-medium'>Payment Incomplete</div>
-            <button className="btn btn-link p-0 h-0 min-h-0">pay</button>
+            <div className='text-xs text-accent font-medium'>Checkout from dashboard</div>
           </div>
         }
         {

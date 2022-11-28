@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaBars } from "react-icons/fa";
 import { AuthContext } from '../contexts/AuthContextComp';
 import toast from 'react-hot-toast';
@@ -8,11 +8,13 @@ import logo from '../assets/images/logo.png';
 const Header = () => {
 
   const { user, userLogout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleUserLogout = () => {
     userLogout()
       .then(result => {
-        toast.success('Logout successfull..')
+        toast.success('Logout successfull..');
+        navigate('/login');
       })
       .catch(err => {
         toast.error('Somthing is wrong..')

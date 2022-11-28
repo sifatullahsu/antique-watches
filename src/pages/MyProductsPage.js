@@ -3,8 +3,8 @@ import React, { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
-import DashLoading from '../components/DashLoading';
 import Heading from '../components/Heading';
+import Loading from '../components/Loading';
 import ModalCom from '../components/ModalCom';
 import { AuthContext } from '../contexts/AuthContextComp';
 
@@ -58,7 +58,7 @@ const MyProductsPage = () => {
 
   if (isLoading) {
     return (
-      <DashLoading></DashLoading>
+      <Loading></Loading>
     );
   }
 

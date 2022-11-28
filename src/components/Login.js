@@ -6,7 +6,7 @@ import { AuthContext } from '../contexts/AuthContextComp';
 import GoogleSignIn from './GoogleSignIn';
 
 const Login = () => {
-  const { userLogin } = useContext(AuthContext);
+  const { userLogin, getUserJwt, setLoading } = useContext(AuthContext);
   const { register, handleSubmit, reset } = useForm();
 
   const navigate = useNavigate();
@@ -20,8 +20,11 @@ const Login = () => {
     userLogin(email, password)
       .then(result => {
         toast.success('Login successfull..');
-        reset();
-        navigate(from);
+        getUserJwt(result.user.email)
+          .then(data => {
+            localStorage.setItem('antique-token', data.token);
+            navigate(from, { replace: true });
+          })
       })
       .catch(err => {
         console.log(err);
@@ -50,7 +53,7 @@ const Login = () => {
       </form>
 
       <div className="flex flex-col"><div className="divider my-6">OR</div></div>
-      <GoogleSignIn></GoogleSignIn>
+      <GoogleSignIn from={from}></GoogleSignIn>
     </div>
   );
 };

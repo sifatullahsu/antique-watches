@@ -1,24 +1,23 @@
 import React, { useContext } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContextComp';
 import { toast } from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
 
 const GoogleSignIn = ({ from }) => {
-  const { userSocialLogin } = useContext(AuthContext);
-  // const navigate = useNavigate();
-
+  const { userSocialLogin, getUserJwt } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleGoogleSignIn = () => {
     userSocialLogin('google')
-      .then(res => {
+      .then(result => {
         const user = {
-          name: res.user.displayName,
-          email: res.user.email,
-          image: res.user.photoURL,
+          name: result.user.displayName,
+          email: result.user.email,
+          image: result.user.photoURL,
           role: 'buyer',
           verified: 'false',
-          uid: res.user.uid
+          uid: result.user.uid
         }
 
         fetch('http://localhost:5000/users/social', {
@@ -32,6 +31,11 @@ const GoogleSignIn = ({ from }) => {
           .then(data => {
             if (data.acknowledged) {
               toast.success('Successfully logged in!!');
+              getUserJwt(result.user.email)
+                .then(data => {
+                  localStorage.setItem('antique-token', data.token);
+                  navigate(from, { replace: true });
+                })
             }
           })
       })

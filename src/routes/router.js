@@ -9,6 +9,7 @@ import EditProduct from "../pages/EditProduct";
 import ErrorPage from "../pages/ErrorPage";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
+import MyBuyers from "../pages/MyBuyers";
 import MyOrderPage from "../pages/MyOrderPage";
 import MyProductsPage from "../pages/MyProductsPage";
 import ProductsPage from "../pages/ProductsPage";
@@ -18,7 +19,9 @@ import SingleCategoryPage from "../pages/SingleCategoryPage";
 import UsersPage from "../pages/UsersPage";
 import DashTemp from "../templates/DashTemp";
 import MainTemp from "../templates/MainTemp";
+import AdminRoute from "./AdminRoute";
 import PrivateRoute from "./PrivateRoute";
+import SellerRoute from "./SellerRoute";
 
 const { createBrowserRouter } = require("react-router-dom");
 
@@ -66,67 +69,68 @@ export const router = createBrowserRouter([
       // Default for all user role
       {
         path: '',
-        element: <PrivateRoute role='any'><div></div></PrivateRoute>
+        element: <PrivateRoute><div></div></PrivateRoute>
       },
       {
         path: 'my-orders',
-        element: <PrivateRoute role='any'><MyOrderPage></MyOrderPage></PrivateRoute>
+        element: <PrivateRoute><MyOrderPage></MyOrderPage></PrivateRoute>
       },
 
       // For only sellers
       {
         path: 'add-product',
-        element: <PrivateRoute role='seller'><AddProduct></AddProduct></PrivateRoute>
+        element: <SellerRoute><AddProduct></AddProduct></SellerRoute>
       },
       {
         path: 'my-products',
-        element: <MyProductsPage></MyProductsPage>
+        element: <SellerRoute><MyProductsPage></MyProductsPage></SellerRoute>
       },
       {
         path: 'my-products/:id',
-        element: <EditProduct></EditProduct>
+        element: <SellerRoute><EditProduct></EditProduct></SellerRoute>
       },
       {
         path: 'my-buyers',
-        element: ''
+        element: <SellerRoute><MyBuyers></MyBuyers></SellerRoute>
       },
 
       // For only admins
       {
         path: 'all-sellers',
-        element: <UsersPage></UsersPage>
+        element: <AdminRoute><UsersPage></UsersPage></AdminRoute>
       },
       {
         path: 'all-buyers',
-        element: <UsersPage></UsersPage>
+        element: <AdminRoute><UsersPage></UsersPage></AdminRoute>
       },
       {
         path: 'products',
-        element: <ProductsPage></ProductsPage>
+        element: <AdminRoute><ProductsPage></ProductsPage></AdminRoute>
       },
       {
         path: 'products/:id',
-        element: <EditProduct></EditProduct>
+        element: <AdminRoute><EditProduct></EditProduct></AdminRoute>
       },
       {
         path: 'add-category',
-        element: <AddCategory></AddCategory>
+        element: <AdminRoute><AddCategory></AddCategory></AdminRoute>
       },
       {
         path: 'categories',
-        element: <CategoriesPage></CategoriesPage>
+        element: <AdminRoute><CategoriesPage></CategoriesPage></AdminRoute>
       },
       {
         path: 'categories/:id',
-        element: <EditCategory></EditCategory>
+        element: <AdminRoute><EditCategory></EditCategory></AdminRoute>
       },
       {
         path: 'reported-items',
-        element: <ReportedItemsPage></ReportedItemsPage>
+        element: <AdminRoute><ReportedItemsPage></ReportedItemsPage></AdminRoute>
       },
       {
         path: 'checkout/:id',
-        element: <CheckoutPage></CheckoutPage>
+        element: <PrivateRoute><CheckoutPage></CheckoutPage></PrivateRoute>,
+        loader: ({ params }) => fetch(`http://localhost:5000/orders/${params.id}`)
       },
     ]
   }

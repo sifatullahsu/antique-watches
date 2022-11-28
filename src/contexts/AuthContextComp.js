@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
 import app from '../firebase/firebase.init';
+import axios from 'axios';
 
 export const AuthContext = createContext();
 
@@ -39,18 +40,40 @@ const AuthContextComp = ({ children }) => {
     return false;
   }
 
+
+  const getUserJwt = async (email) => {
+    const currentUser = { email }
+
+    const jwt = await fetch('http://localhost:5000/jwt', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(currentUser)
+    })
+
+    const jwtData = await jwt.json();
+
+    return jwtData;
+  }
+
+
   useEffect(() => {
     if (user?.uid) {
       setUserProfileLoading(true);
-      fetch(`http://localhost:5000/users/uid/${user.uid}`)
-        .then(res => res.json())
-        .then(data => {
-          setUserProfile(data);
+
+      axios.get(`http://localhost:5000/users/uid/${user.uid}`)
+        .then(res => {
+          setUserProfile(res.data);
           setUserProfileLoading(false);
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          console.log(err);
+          setUserProfileLoading(false);
+        })
     }
   }, [user]);
+
 
 
   useEffect(() => {
@@ -60,6 +83,7 @@ const AuthContextComp = ({ children }) => {
       }
       setUser(currentUser);
       setUserLoading(false);
+      setUserProfileLoading(false);
     })
 
     return () => {
@@ -75,7 +99,8 @@ const AuthContextComp = ({ children }) => {
     userLogin,
     userRegister,
     userLogout,
-    userSocialLogin
+    userSocialLogin,
+    getUserJwt
   }
 
   return (

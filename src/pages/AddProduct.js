@@ -6,7 +6,7 @@ import Heading from '../components/Heading';
 import { useQuery } from '@tanstack/react-query';
 import { AuthContext } from '../contexts/AuthContextComp';
 import { useLocation, useNavigate } from 'react-router-dom';
-import DashLoading from '../components/DashLoading';
+import Loading from '../components/Loading';
 
 const AddProduct = () => {
 
@@ -77,7 +77,7 @@ const AddProduct = () => {
 
   if (isLoading) {
     return (
-      <DashLoading></DashLoading>
+      <Loading></Loading>
     );
   }
 

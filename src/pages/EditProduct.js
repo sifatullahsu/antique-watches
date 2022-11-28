@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import Heading from '../components/Heading';
 import { useQuery } from '@tanstack/react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
-import DashLoading from '../components/DashLoading';
+import Loading from '../components/Loading';
 
 const EditProduct = () => {
 
@@ -97,7 +97,7 @@ const EditProduct = () => {
 
   if (isLoading) {
     return (
-      <DashLoading></DashLoading>
+      <Loading></Loading>
     );
   }
 

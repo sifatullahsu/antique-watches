@@ -6,6 +6,7 @@ import ModalCom from '../components/ModalCom';
 import { useQuery } from '@tanstack/react-query';
 import { Link, useLocation } from 'react-router-dom';
 import DashLoading from '../components/DashLoading';
+import Loading from '../components/Loading';
 
 
 const ProductsPage = () => {
@@ -58,7 +59,7 @@ const ProductsPage = () => {
   console.log(products);
   if (isLoading) {
     return (
-      <DashLoading></DashLoading>
+      <Loading></Loading>
     );
   }
 

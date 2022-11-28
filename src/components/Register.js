@@ -6,7 +6,7 @@ import { AuthContext } from '../contexts/AuthContextComp';
 import GoogleSignIn from './GoogleSignIn';
 
 const Register = () => {
-  const { userRegister } = useContext(AuthContext);
+  const { userRegister, getUserJwt } = useContext(AuthContext);
   const { register, handleSubmit, reset } = useForm();
   const imageHostKey = process.env.REACT_APP_IMGBB_API;
 
@@ -32,6 +32,7 @@ const Register = () => {
     })
       .then(res => res.json())
       .then(data => {
+        reset();
         const imageURL = data.data.url;
 
         userRegister(email, password)
@@ -51,10 +52,12 @@ const Register = () => {
                 .then(res => res.json())
                 .then(data => {
                   if (data.acknowledged) {
-                    // console.log(data);
-                    toast.success('User successfully created..')
-                    reset();
-                    navigate(from)
+                    toast.success('User successfully created..');
+                    getUserJwt(result.user.email)
+                      .then(data => {
+                        localStorage.setItem('antique-token', data.token);
+                        navigate(from, { replace: true });
+                      })
                   }
                 })
             }
@@ -116,7 +119,7 @@ const Register = () => {
 
       </form>
       <div className="flex flex-col"><div className="divider my-6">OR</div></div>
-      <GoogleSignIn></GoogleSignIn>
+      <GoogleSignIn from={from}></GoogleSignIn>
     </div>
   );
 };
