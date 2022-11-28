@@ -20,7 +20,7 @@ const GoogleSignIn = ({ from }) => {
           uid: result.user.uid
         }
 
-        fetch('https://antique-watches.vercel.app/users/social', {
+        fetch('http://localhost:5000/users/social', {
           method: 'POST',
           headers: {
             'content-type': 'application/json'

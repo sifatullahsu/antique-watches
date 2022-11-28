@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from "react-hook-form";
 import toast from 'react-hot-toast';
 import Heading from '../components/Heading';
+import { AuthContext } from '../contexts/AuthContextComp';
 
 const AddCategory = () => {
+
+  const { user } = useContext(AuthContext);
+
   const { register, handleSubmit, reset } = useForm();
   const imageHostKey = process.env.REACT_APP_IMGBB_API;
 
@@ -29,10 +33,12 @@ const AddCategory = () => {
           catName, catImage: imgURL
         }
 
-        fetch('https://antique-watches.vercel.app/categories', {
+        fetch('http://localhost:5000/categories', {
           method: 'POST',
           headers: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('antique-token')}`,
+            email: user.email
           },
           body: JSON.stringify(finalData)
         })

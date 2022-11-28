@@ -8,16 +8,23 @@ import { AuthContext } from '../contexts/AuthContextComp';
 
 const SingleCategoryPage = () => {
 
+  const { userProfile } = useContext(AuthContext);
+
   const location = useLocation();
   const propsID = location?.pathname.split('/categories/')[1];
-  const { userProfile } = useContext(AuthContext);
 
 
   const { data: products = [], isLoading, refetch } = useQuery({
     queryKey: ['products', location, userProfile],
     queryFn: async () => {
       if (userProfile?._id) {
-        const res = await fetch(`https://antique-watches.vercel.app/products/categories?catID=${propsID}&userID=${userProfile._id}`);
+
+        const url = `http://localhost:5000/products/categories?catID=${propsID}&userID=${userProfile._id}`;
+        const res = await fetch(url, {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem('antique-token')}`,
+          }
+        });
         const data = await res.json();
 
         return data;
@@ -25,7 +32,6 @@ const SingleCategoryPage = () => {
       return []
     }
   });
-
 
 
   if (isLoading) {

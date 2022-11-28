@@ -1,21 +1,22 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
-import DashLoading from '../components/DashLoading';
 import Heading from '../components/Heading';
 import Loading from '../components/Loading';
 import ModalCom from '../components/ModalCom';
+import { AuthContext } from '../contexts/AuthContextComp';
 
 const CategoriesPage = () => {
 
   const location = useLocation();
+  const { user } = useContext(AuthContext);
 
   const { data: categories = [], isLoading, refetch } = useQuery({
     queryKey: ['categories', location],
     queryFn: async () => {
-      const res = await fetch(`https://antique-watches.vercel.app/categories`);
+      const res = await fetch(`http://localhost:5000/categories`);
       const data = await res.json();
 
       return data;
@@ -25,9 +26,12 @@ const CategoriesPage = () => {
   const [itemDelete, setItemDelete] = useState(null);
 
   const handleDelete = (id) => {
-    fetch(`https://antique-watches.vercel.app/categories?delete=${id}`, {
+    fetch(`http://localhost:5000/categories?delete=${id}`, {
       method: 'DELETE',
-      headers: {}
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('antique-token')}`,
+        email: user.email
+      }
     })
       .then(res => res.json())
       .then(data => {

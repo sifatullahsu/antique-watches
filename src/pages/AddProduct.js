@@ -22,7 +22,7 @@ const AddProduct = () => {
   const { data: categories = [], isLoading } = useQuery({
     queryKey: ['categories', location],
     queryFn: async () => {
-      const res = await fetch(`https://antique-watches.vercel.app/categories`);
+      const res = await fetch(`http://localhost:5000/categories`);
       const data = await res.json();
 
       return data;
@@ -34,7 +34,6 @@ const AddProduct = () => {
       name, price, buyingPrice, condition, purchasedYear, number, location, description, image, category
     } = formData;
 
-    console.log(image);
 
     if (image[0].type !== 'image/png') {
       return toast.error('Only image/png type is allowed');
@@ -56,10 +55,11 @@ const AddProduct = () => {
           description, imgURL, category, author: userProfile._id, publishedDate: date
         }
 
-        fetch('https://antique-watches.vercel.app/products', {
+        fetch('http://localhost:5000/products', {
           method: 'POST',
           headers: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('antique-token')}`
           },
           body: JSON.stringify(finalData)
         })

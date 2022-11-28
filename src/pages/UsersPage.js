@@ -10,7 +10,7 @@ import { AuthContext } from '../contexts/AuthContextComp';
 
 const UsersPage = () => {
 
-  const { user, userProfile, userLoading } = useContext(AuthContext);
+  const { user, userLoading } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,7 +28,7 @@ const UsersPage = () => {
 
       if (user?.uid) {
         const email = user.email;
-        const res = await fetch(`https://antique-watches.vercel.app/users/role/${role}`, {
+        const res = await fetch(`http://localhost:5000/users/role/${role}`, {
           method: 'GET',
           headers: {
             authorization: `Bearer ${localStorage.getItem('antique-token')}`,
@@ -52,36 +52,15 @@ const UsersPage = () => {
 
 
 
-
-  /*   useEffect(() => {
-      fetch(`https://antique-watches.vercel.app/users/role/${role}`, {
-        method: 'GET',
-        headers: {
-          authorization: `Bearer ${localStorage.getItem('antique-token')}`,
-          email: user.email
-        }
-      })
-        .then(res => {
-          if (res.status === 401 || res.status === 403) {
-            toast.error('Unauthorized Access..');
-            navigate('/login');
-            return [];
-          }
-        })
-        .then(data => {
-          console.log(data);
-        })
-  
-    }, [user]) */
-
-
-
   const [itemDelete, setItemDelete] = useState(null);
 
   const handleDelete = (id) => {
-    fetch(`https://antique-watches.vercel.app/users?delete=${id}`, {
+    fetch(`http://localhost:5000/users?delete=${id}`, {
       method: 'DELETE',
-      headers: {}
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('antique-token')}`,
+        email: user.email
+      }
     })
       .then(res => res.json())
       .then(data => {
@@ -94,10 +73,12 @@ const UsersPage = () => {
     const data = isVerified === 'true' ? 'false' : 'true';
     const update = { verified: data }
 
-    fetch(`https://antique-watches.vercel.app/users?update=${id}`, {
+    fetch(`http://localhost:5000/users?update=${id}`, {
       method: 'PATCH',
       headers: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('antique-token')}`,
+        email: user.email
       },
       body: JSON.stringify(update)
     })

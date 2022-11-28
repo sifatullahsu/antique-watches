@@ -15,7 +15,11 @@ const MyProductsPage = () => {
   const { data: products = [], isLoading, refetch } = useQuery({
     queryKey: ['products', location],
     queryFn: async () => {
-      const res = await fetch(`https://antique-watches.vercel.app/products/email/${userProfile._id}`);
+      const res = await fetch(`http://localhost:5000/products/email/${userProfile._id}`, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('antique-token')}`
+        }
+      });
       const data = await res.json();
 
       return data;
@@ -26,14 +30,21 @@ const MyProductsPage = () => {
   const [itemDelete, setItemDelete] = useState(null);
 
   const handleDelete = (id) => {
-    fetch(`https://antique-watches.vercel.app/products?delete=${id}`, {
+    fetch(`http://localhost:5000/products?delete=${id}`, {
       method: 'DELETE',
-      headers: {}
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('antique-token')}`
+      }
     })
       .then(res => res.json())
       .then(data => {
-        toast.success('Product delete successful...');
-        refetch();
+        if (data.acknowledged) {
+          toast.success('Producut delete successful..');
+          refetch();
+        }
+        else {
+          toast.error('You are not authorized user..');
+        }
       })
   }
 
@@ -41,17 +52,24 @@ const MyProductsPage = () => {
     const data = isAdvertise === 'true' ? 'false' : 'true';
     const update = { advertise: data }
 
-    fetch(`https://antique-watches.vercel.app/products?update=${id}`, {
+    fetch(`http://localhost:5000/products?update=${id}`, {
       method: 'PATCH',
       headers: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('antique-token')}`,
       },
       body: JSON.stringify(update)
     })
       .then(res => res.json())
       .then(data => {
-        toast.success(`Product advertise ${isAdvertise === 'true' ? 'disabled' : 'enable'} successful...`);
-        refetch();
+        if (data.acknowledged) {
+          toast.success(`Product advertise ${isAdvertise === 'true' ? 'disabled' : 'enable'} successful...`);
+          refetch();
+        }
+        else {
+          toast.error('You are not authorized user..');
+          refetch();
+        }
       })
   }
 

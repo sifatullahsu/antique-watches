@@ -21,10 +21,11 @@ const ProductLoop = ({ products, refetch, isSlider }) => {
 
   const handleBooking = (data) => {
 
-    fetch('https://antique-watches.vercel.app/orders', {
+    fetch('http://localhost:5000/orders', {
       method: 'POST',
       headers: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('antique-token')}`
       },
       body: JSON.stringify(data)
     })
@@ -38,10 +39,11 @@ const ProductLoop = ({ products, refetch, isSlider }) => {
 
   const handleConplaint = (data) => {
 
-    fetch('https://antique-watches.vercel.app/complaints', {
+    fetch('http://localhost:5000/complaints', {
       method: 'POST',
       headers: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('antique-token')}`
       },
       body: JSON.stringify(data)
     })

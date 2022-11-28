@@ -22,7 +22,7 @@ const HomePage = () => {
   const { data: products = [], isLoading, refetch } = useQuery({
     queryKey: ['products', location, userProfile],
     queryFn: async () => {
-      const res = await fetch(`https://antique-watches.vercel.app/products/advertise?userID=${userProfile._id}`);
+      const res = await fetch(`http://localhost:5000/products/advertise?userID=${userProfile._id}`);
       const data = await res.json();
 
       return data;
@@ -32,7 +32,7 @@ const HomePage = () => {
   const { data: categories = [], isLoading: isLoadingCat } = useQuery({
     queryKey: ['categories', location],
     queryFn: async () => {
-      const res = await fetch(`https://antique-watches.vercel.app/categories`);
+      const res = await fetch(`http://localhost:5000/categories`);
       const data = await res.json();
 
       return data;

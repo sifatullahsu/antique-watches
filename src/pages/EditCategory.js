@@ -1,10 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useContext } from 'react';
 import toast from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Heading from '../components/Heading';
+import { AuthContext } from '../contexts/AuthContextComp';
 
 const EditCategory = () => {
+
+  const { user } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const imageHostKey = process.env.REACT_APP_IMGBB_API;
@@ -15,19 +18,29 @@ const EditCategory = () => {
   const { data: categories = [] } = useQuery({
     queryKey: ['categories', location],
     queryFn: async () => {
-      const res = await fetch(`https://antique-watches.vercel.app/categories/id/${id}`);
-      const data = await res.json();
+      if (user?.uid) {
+        const res = await fetch(`http://localhost:5000/categories/id/${id}`, {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem('antique-token')}`,
+            email: user.email
+          }
+        });
+        const data = await res.json();
 
-      return data;
+        return data;
+      }
+      return []
     }
   });
 
 
   const updateCategoryData = (data, form) => {
-    fetch(`https://antique-watches.vercel.app/categories?update=${id}`, {
+    fetch(`http://localhost:5000/categories?update=${id}`, {
       method: 'PATCH',
       headers: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('antique-token')}`,
+        email: user.email
       },
       body: JSON.stringify(data)
     })

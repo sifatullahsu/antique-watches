@@ -42,7 +42,7 @@ const Register = () => {
               const role = isSeller ? 'seller' : 'buyer';
               const data = { name, email, image: imageURL, role, verified: 'false', uid }
 
-              fetch('https://antique-watches.vercel.app/users', {
+              fetch('http://localhost:5000/users', {
                 method: 'POST',
                 headers: {
                   'content-type': 'application/json'

@@ -14,10 +14,14 @@ const SellerRoute = ({ children }) => {
 
 
   useEffect(() => {
-    const url = `https://antique-watches.vercel.app/users/uid/${user?.uid}`;
+    const url = `http://localhost:5000/users/uid/${user?.uid}`;
 
     if (user?.uid) {
-      fetch(url)
+      fetch(url, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('antique-token')}`
+        }
+      })
         .then(res => res.json())
         .then(data => {
           setLoading(false);

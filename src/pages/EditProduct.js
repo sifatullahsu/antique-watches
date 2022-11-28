@@ -17,7 +17,11 @@ const EditProduct = () => {
   const { data: query = {}, isLoading } = useQuery({
     queryKey: ['query', location],
     queryFn: async () => {
-      const res = await fetch(`https://antique-watches.vercel.app/products/id/${id}`);
+      const res = await fetch(`http://localhost:5000/products/id/${id}`, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('antique-token')}`
+        }
+      });
       const data = await res.json();
 
       return data;
@@ -27,7 +31,7 @@ const EditProduct = () => {
   const { data: categories = [] } = useQuery({
     queryKey: ['categories'],
     queryFn: async () => {
-      const res = await fetch(`https://antique-watches.vercel.app/categories`);
+      const res = await fetch(`http://localhost:5000/categories`);
       const data = await res.json();
 
       return data;
@@ -37,18 +41,27 @@ const EditProduct = () => {
 
 
   const updateProductsDataFromBD = (formData, form) => {
-    fetch(`https://antique-watches.vercel.app/products?update=${id}`, {
+    fetch(`http://localhost:5000/products?update=${id}`, {
       method: 'PATCH',
       headers: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('antique-token')}`
       },
       body: JSON.stringify(formData)
     })
       .then(res => res.json())
       .then(data => {
-        toast.success('Producut update successful..');
-        form.reset();
-        navigate('/dashboard/my-products');
+        if (data.acknowledged) {
+          toast.success('Producut update successful..');
+          form.reset();
+          navigate('/dashboard/my-products');
+        }
+        else {
+          toast.error('You are not authorized user..');
+          form.reset();
+          navigate('/login');
+        }
+
       })
   }
 

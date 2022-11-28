@@ -1,7 +1,7 @@
 import React from 'react';
 
 const ComplaintModal = ({ complaint, userProfile, handleSubmit, handleConplaint, register, setComplaint }) => {
-  console.log(typeof complaint.currentUser.loggedIn);
+
   return (
     <>
       <input type="checkbox" id="complaint-modal" className="modal-toggle" />
@@ -19,18 +19,18 @@ const ComplaintModal = ({ complaint, userProfile, handleSubmit, handleConplaint,
               <textarea
                 {...register("reason", { required: true })}
                 className="textarea textarea-bordered h-24"
-                disabled={complaint?.currentUser?.loggedIn ? true : false}
+                disabled={complaint?.currentUser?.loggedIn ? false : true}
               ></textarea>
             </div>
 
             <button
               type="submit"
               className='btn btn-primary btn-sm w-full mt-5'
-              disabled={complaint?.currentUser?.loggedIn ? true : false}
+              disabled={complaint?.currentUser?.loggedIn ? false : true}
             >Report to Admin</button>
 
             {
-              complaint?.currentUser?.loggedIn &&
+              !complaint?.currentUser?.loggedIn &&
               <label className="label"><span className="label-text text-warning">Please loggedIn for complain..</span></label>
             }
 

@@ -19,7 +19,7 @@ const CheckoutForm = ({ order }) => {
 
 
   useEffect(() => {
-    fetch("https://antique-watches.vercel.app/create-payment-intent", {
+    fetch("http://localhost:5000/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ price: price }),
@@ -74,10 +74,11 @@ const CheckoutForm = ({ order }) => {
           amount: paymentIntent.amount
         }
 
-        fetch(`https://antique-watches.vercel.app/orders/payment-confirm?orderID=${_id}&productID=${productID}`, {
+        fetch(`http://localhost:5000/orders/payment-confirm?orderID=${_id}&productID=${productID}`, {
           method: 'PATCH',
           headers: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem('antique-token')}`
           },
           body: JSON.stringify(order)
         })

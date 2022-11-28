@@ -1,37 +1,53 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaCheckCircle, FaTrashAlt } from 'react-icons/fa';
 import { RiEyeFill } from 'react-icons/ri';
 import { useLocation } from 'react-router-dom';
-import DashLoading from '../components/DashLoading';
 import Heading from '../components/Heading';
 import Loading from '../components/Loading';
 import ModalCom from '../components/ModalCom';
+import { AuthContext } from '../contexts/AuthContextComp';
 
 const ReportedItemsPage = () => {
+
+  const { user, userLoading } = useContext(AuthContext);
 
   const location = useLocation();
 
   const { data: complaints = [], isLoading, isError, refetch } = useQuery({
-    queryKey: ['complaints', location],
+    queryKey: ['complaints', location, user],
     queryFn: async () => {
-      const res = await fetch(`https://antique-watches.vercel.app/complaints`);
-      const data = await res.json();
 
-      return data;
+      if (user?.uid) {
+        const res = await fetch(`http://localhost:5000/complaints`, {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem('antique-token')}`,
+            email: user.email
+          }
+        });
+        const data = await res.json();
+
+        return data;
+      }
+
+      return [];
+
     }
   });
 
-  console.log(complaints);
+
 
   const [itemDelete, setItemDelete] = useState(null);
   const [complaintReport, setComplaintReport] = useState(null);
 
   const handleDelete = (id) => {
-    fetch(`https://antique-watches.vercel.app/complaints?delete=${id}`, {
+    fetch(`http://localhost:5000/complaints?delete=${id}`, {
       method: 'DELETE',
-      headers: {}
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('antique-token')}`,
+        email: user.email
+      }
     })
       .then(res => res.json())
       .then(data => {
@@ -40,7 +56,7 @@ const ReportedItemsPage = () => {
       })
   }
 
-  if (isLoading) {
+  if (isLoading || userLoading) {
     return (
       <Loading></Loading>
     );
@@ -138,7 +154,7 @@ const ReportedItemsPage = () => {
                         <FaCheckCircle className='text-blue-500 inline ml-2 -mt-1'></FaCheckCircle>
                       }
                     </div>
-                    <span className='uppercase text-xs text-gray-400'>{complaintReport.userInfo.role === 'seller' ? 'SELLER' : null}</span>
+                    <span className='uppercase text-xs text-gray-400'>{complaintReport.userInfo.role}</span>
                   </div>
                 </div>
                 <label

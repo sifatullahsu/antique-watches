@@ -1,25 +1,35 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import Heading from '../components/Heading';
 import ModalCom from '../components/ModalCom';
 import { useQuery } from '@tanstack/react-query';
 import { Link, useLocation } from 'react-router-dom';
-import DashLoading from '../components/DashLoading';
 import Loading from '../components/Loading';
+import { AuthContext } from '../contexts/AuthContextComp';
 
 
 const ProductsPage = () => {
+  const { user, userLoading } = useContext(AuthContext);
 
   const location = useLocation();
 
   const { data: products = [], isLoading, refetch } = useQuery({
     queryKey: ['products', location],
     queryFn: async () => {
-      const res = await fetch(`https://antique-watches.vercel.app/products/`);
-      const data = await res.json();
 
-      return data;
+      if (user?.uid) {
+        const res = await fetch(`http://localhost:5000/products/`, {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem('antique-token')}`,
+            email: user.email
+          }
+        });
+        const data = await res.json();
+
+        return data;
+      }
+      return []
     }
   });
 
@@ -27,9 +37,11 @@ const ProductsPage = () => {
   const [itemDelete, setItemDelete] = useState(null);
 
   const handleDelete = (id) => {
-    fetch(`https://antique-watches.vercel.app/products?delete=${id}`, {
+    fetch(`http://localhost:5000/products?delete=${id}`, {
       method: 'DELETE',
-      headers: {}
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('antique-token')}`
+      }
     })
       .then(res => res.json())
       .then(data => {
@@ -42,10 +54,11 @@ const ProductsPage = () => {
     const data = isAdvertise === 'true' ? 'false' : 'true';
     const update = { advertise: data }
 
-    fetch(`https://antique-watches.vercel.app/products?update=${id}`, {
+    fetch(`http://localhost:5000/products?update=${id}`, {
       method: 'PATCH',
       headers: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('antique-token')}`,
       },
       body: JSON.stringify(update)
     })
@@ -56,8 +69,7 @@ const ProductsPage = () => {
       })
   }
 
-  console.log(products);
-  if (isLoading) {
+  if (isLoading || userLoading) {
     return (
       <Loading></Loading>
     );
