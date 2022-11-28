@@ -8,10 +8,10 @@ import CategoryLoop from '../components/loops/CategoryLoop';
 const AllCategoriesPage = () => {
   const location = useLocation();
 
-  const { data: categories = [], isLoading, refetch } = useQuery({
+  const { data: categories = [], isLoading } = useQuery({
     queryKey: ['categories', location],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/categories`);
+      const res = await fetch(`https://antique-watches.vercel.app/categories`);
       const data = await res.json();
 
       return data;

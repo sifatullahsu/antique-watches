@@ -20,7 +20,7 @@ const ReportedItemsPage = () => {
     queryFn: async () => {
 
       if (user?.uid) {
-        const res = await fetch(`http://localhost:5000/complaints`, {
+        const res = await fetch(`https://antique-watches.vercel.app/complaints`, {
           headers: {
             authorization: `Bearer ${localStorage.getItem('antique-token')}`,
             email: user.email
@@ -42,7 +42,7 @@ const ReportedItemsPage = () => {
   const [complaintReport, setComplaintReport] = useState(null);
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/complaints?delete=${id}`, {
+    fetch(`https://antique-watches.vercel.app/complaints?delete=${id}`, {
       method: 'DELETE',
       headers: {
         authorization: `Bearer ${localStorage.getItem('antique-token')}`,
@@ -91,7 +91,7 @@ const ReportedItemsPage = () => {
                   <tr key={complaint._id}>
                     <th>{index + 1}</th>
                     <td>{complaint.productInfo.name}</td>
-                    <td>{complaint.userInfo.email}</td>
+                    <td>{complaint?.userInfo?.email}</td>
                     <td className='text-right'>
                       <label
                         htmlFor="view-complaint-modal"

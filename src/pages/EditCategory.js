@@ -19,7 +19,7 @@ const EditCategory = () => {
     queryKey: ['categories', location],
     queryFn: async () => {
       if (user?.uid) {
-        const res = await fetch(`http://localhost:5000/categories/id/${id}`, {
+        const res = await fetch(`https://antique-watches.vercel.app/categories/id/${id}`, {
           headers: {
             authorization: `Bearer ${localStorage.getItem('antique-token')}`,
             email: user.email
@@ -35,7 +35,7 @@ const EditCategory = () => {
 
 
   const updateCategoryData = (data, form) => {
-    fetch(`http://localhost:5000/categories?update=${id}`, {
+    fetch(`https://antique-watches.vercel.app/categories?update=${id}`, {
       method: 'PATCH',
       headers: {
         'content-type': 'application/json',

@@ -4,9 +4,10 @@ import toast from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContextComp';
 import GoogleSignIn from './GoogleSignIn';
+import Loading from './Loading';
 
 const Login = () => {
-  const { userLogin, getUserJwt, setLoading } = useContext(AuthContext);
+  const { userLogin, getUserJwt, userLoading, setUserLoading } = useContext(AuthContext);
   const { register, handleSubmit, reset } = useForm();
 
   const navigate = useNavigate();
@@ -27,12 +28,17 @@ const Login = () => {
           })
       })
       .catch(err => {
-        console.log(err);
         toast.error('Somthing is wrong..');
+        setUserLoading(false);
       })
 
   }
 
+  if (userLoading) {
+    return (
+      <Loading></Loading>
+    );
+  }
 
   return (
     <div>

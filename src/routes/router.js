@@ -4,6 +4,7 @@ import AllCategoriesPage from "../pages/AllCategoriesPage";
 import BlogPage from "../pages/BlogPage";
 import CategoriesPage from "../pages/CategoriesPage";
 import CheckoutPage from "../pages/CheckoutPage";
+import DashPage from "../pages/DashPage";
 import EditCategory from "../pages/EditCategory";
 import EditProduct from "../pages/EditProduct";
 import ErrorPage from "../pages/ErrorPage";
@@ -40,12 +41,12 @@ export const router = createBrowserRouter([
       },
       {
         path: 'categories',
-        element: <AllCategoriesPage></AllCategoriesPage>,
-        loader: () => fetch('http://localhost:5000/categories')
+        element: <PrivateRoute><AllCategoriesPage></AllCategoriesPage></PrivateRoute>,
+        loader: () => fetch('https://antique-watches.vercel.app/categories')
       },
       {
         path: 'categories/:id',
-        element: <SingleCategoryPage></SingleCategoryPage>
+        element: <PrivateRoute><SingleCategoryPage></SingleCategoryPage></PrivateRoute>
       },
       {
         path: 'login',
@@ -69,7 +70,7 @@ export const router = createBrowserRouter([
       // Default for all user role
       {
         path: '',
-        element: <PrivateRoute><div></div></PrivateRoute>
+        element: <PrivateRoute><DashPage></DashPage></PrivateRoute>
       },
       {
         path: 'my-orders',
@@ -130,7 +131,7 @@ export const router = createBrowserRouter([
       {
         path: 'checkout/:id',
         element: <PrivateRoute><CheckoutPage></CheckoutPage></PrivateRoute>,
-        loader: ({ params }) => fetch(`http://localhost:5000/orders/${params.id}`)
+        loader: ({ params }) => fetch(`https://antique-watches.vercel.app/orders/${params.id}`)
       },
     ]
   }

@@ -21,7 +21,7 @@ const ProductLoop = ({ products, refetch, isSlider }) => {
 
   const handleBooking = (data) => {
 
-    fetch('http://localhost:5000/orders', {
+    fetch('https://antique-watches.vercel.app/orders', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -39,7 +39,7 @@ const ProductLoop = ({ products, refetch, isSlider }) => {
 
   const handleConplaint = (data) => {
 
-    fetch('http://localhost:5000/complaints', {
+    fetch('https://antique-watches.vercel.app/complaints', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',

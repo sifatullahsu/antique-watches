@@ -17,7 +17,7 @@ const MyOrderPage = () => {
     queryKey: ['orders', location, userProfile],
     queryFn: async () => {
       if (userProfile?._id) {
-        const res = await fetch(`http://localhost:5000/orders/userid/${userProfile?._id}`, {
+        const res = await fetch(`https://antique-watches.vercel.app/orders/userid/${userProfile?._id}`, {
           headers: {
             authorization: `Bearer ${localStorage.getItem('antique-token')}`
           }
@@ -36,7 +36,7 @@ const MyOrderPage = () => {
 
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/orders?delete=${id}`, {
+    fetch(`https://antique-watches.vercel.app/orders?delete=${id}`, {
       method: 'DELETE',
       headers: {
         authorization: `Bearer ${localStorage.getItem('antique-token')}`
@@ -78,7 +78,14 @@ const MyOrderPage = () => {
               <tbody>
                 {
                   orders?.map((order, index) => {
-                    console.log(order);
+
+                    if (!order?.productInfo) {
+                      return (<tr key={order._id}>
+                        <th>{index + 1}</th>
+                        <td colSpan="5">This product deleted by author.</td>
+                      </tr>);
+                    }
+
                     return (
                       <tr key={order._id}>
                         <th>{index + 1}</th>
@@ -106,13 +113,17 @@ const MyOrderPage = () => {
 
                         </td>
                         <td className='text-right'>
-                          <label
-                            htmlFor="delete-modal"
-                            className='btn btn-ghost btn-sm px-2'
-                            onClick={() => setItemDelete(order)}
-                          >
-                            <FaTrashAlt></FaTrashAlt>
-                          </label>
+                          {
+                            order.productInfo.itemStatus === 'sold' && order.userID !== order?.purchased?.userID &&
+                            <label
+                              htmlFor="delete-modal"
+                              className='btn btn-ghost btn-sm px-2'
+                              onClick={() => setItemDelete(order)}
+                            >
+                              <FaTrashAlt></FaTrashAlt>
+                            </label>
+                          }
+
                         </td>
                       </tr>
                     );
@@ -135,7 +146,7 @@ const MyOrderPage = () => {
           handleDelete={handleDelete}
         ></ModalCom>
       }
-    </div>
+    </div >
   );
 };
 

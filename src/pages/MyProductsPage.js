@@ -15,7 +15,7 @@ const MyProductsPage = () => {
   const { data: products = [], isLoading, refetch } = useQuery({
     queryKey: ['products', location],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/products/email/${userProfile._id}`, {
+      const res = await fetch(`https://antique-watches.vercel.app/products/email/${userProfile._id}`, {
         headers: {
           authorization: `Bearer ${localStorage.getItem('antique-token')}`
         }
@@ -30,7 +30,7 @@ const MyProductsPage = () => {
   const [itemDelete, setItemDelete] = useState(null);
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/products?delete=${id}`, {
+    fetch(`https://antique-watches.vercel.app/products?delete=${id}`, {
       method: 'DELETE',
       headers: {
         authorization: `Bearer ${localStorage.getItem('antique-token')}`
@@ -52,7 +52,7 @@ const MyProductsPage = () => {
     const data = isAdvertise === 'true' ? 'false' : 'true';
     const update = { advertise: data }
 
-    fetch(`http://localhost:5000/products?update=${id}`, {
+    fetch(`https://antique-watches.vercel.app/products?update=${id}`, {
       method: 'PATCH',
       headers: {
         'content-type': 'application/json',
@@ -118,16 +118,21 @@ const MyProductsPage = () => {
                       />
                     </td>
                     <td className='text-right'>
-                      <Link to={`/dashboard/my-products/${product._id}`} className='btn btn-ghost btn-sm px-2'>
-                        <FaEdit></FaEdit>
-                      </Link>
-                      <label
-                        htmlFor="delete-modal"
-                        className='btn btn-ghost btn-sm px-2'
-                        onClick={() => setItemDelete(product)}
-                      >
-                        <FaTrashAlt></FaTrashAlt>
-                      </label>
+                      {
+                        product.itemStatus === 'unsold' &&
+                        <>
+                          <Link to={`/dashboard/my-products/${product._id}`} className='btn btn-ghost btn-sm px-2'>
+                            <FaEdit></FaEdit>
+                          </Link>
+                          <label
+                            htmlFor="delete-modal"
+                            className='btn btn-ghost btn-sm px-2'
+                            onClick={() => setItemDelete(product)}
+                          >
+                            <FaTrashAlt></FaTrashAlt>
+                          </label>
+                        </>
+                      }
                     </td>
                   </tr>
                 );

@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { FaBars } from 'react-icons/fa';
 import { Outlet } from 'react-router-dom';
 import DashSidebar from '../components/DashSidebar';
 import Footer from '../components/Footer';
@@ -8,14 +7,14 @@ import ScrollToTop from '../components/ScrollToTop';
 import { AuthContext } from '../contexts/AuthContextComp';
 
 const DashTemp = () => {
-  const { userProfile, userLoading, userProfileLoading } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   return (
     <>
       <ScrollToTop></ScrollToTop>
       <Header></Header>
       {
-        userProfile?._id && !userLoading && !userProfileLoading ?
+        user?.uid ?
           <main id='content'>
             <div className="container">
               <div className='flex flex-wrap lg:flex-nowrap'>

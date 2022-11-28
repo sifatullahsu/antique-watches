@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContextComp';
 import { toast } from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
+import Loading from './Loading';
 
 const GoogleSignIn = ({ from }) => {
-  const { userSocialLogin, getUserJwt } = useContext(AuthContext);
+  const { userSocialLogin, getUserJwt, userLoading, setUserLoading } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleGoogleSignIn = () => {
@@ -20,7 +21,7 @@ const GoogleSignIn = ({ from }) => {
           uid: result.user.uid
         }
 
-        fetch('http://localhost:5000/users/social', {
+        fetch('https://antique-watches.vercel.app/users/social', {
           method: 'POST',
           headers: {
             'content-type': 'application/json'
@@ -36,12 +37,20 @@ const GoogleSignIn = ({ from }) => {
                   localStorage.setItem('antique-token', data.token);
                   navigate(from, { replace: true });
                 })
+
             }
           })
       })
       .catch(err => {
         toast.error('Something is wrong!!');
+        setUserLoading(false);
       })
+  }
+
+  if (userLoading) {
+    return (
+      <Loading></Loading>
+    );
   }
 
 

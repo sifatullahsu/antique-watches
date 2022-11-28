@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaTrashAlt } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -28,7 +28,7 @@ const UsersPage = () => {
 
       if (user?.uid) {
         const email = user.email;
-        const res = await fetch(`http://localhost:5000/users/role/${role}`, {
+        const res = await fetch(`https://antique-watches.vercel.app/users/role/${role}`, {
           method: 'GET',
           headers: {
             authorization: `Bearer ${localStorage.getItem('antique-token')}`,
@@ -55,7 +55,7 @@ const UsersPage = () => {
   const [itemDelete, setItemDelete] = useState(null);
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/users?delete=${id}`, {
+    fetch(`https://antique-watches.vercel.app/users?delete=${id}`, {
       method: 'DELETE',
       headers: {
         authorization: `Bearer ${localStorage.getItem('antique-token')}`,
@@ -73,7 +73,7 @@ const UsersPage = () => {
     const data = isVerified === 'true' ? 'false' : 'true';
     const update = { verified: data }
 
-    fetch(`http://localhost:5000/users?update=${id}`, {
+    fetch(`https://antique-watches.vercel.app/users?update=${id}`, {
       method: 'PATCH',
       headers: {
         'content-type': 'application/json',

@@ -33,7 +33,7 @@ const AddCategory = () => {
           catName, catImage: imgURL
         }
 
-        fetch('http://localhost:5000/categories', {
+        fetch('https://antique-watches.vercel.app/categories', {
           method: 'POST',
           headers: {
             'content-type': 'application/json',

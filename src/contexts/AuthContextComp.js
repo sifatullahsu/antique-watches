@@ -44,7 +44,7 @@ const AuthContextComp = ({ children }) => {
   const getUserJwt = async (email) => {
     const currentUser = { email }
 
-    const jwt = await fetch('http://localhost:5000/jwt', {
+    const jwt = await fetch('https://antique-watches.vercel.app/jwt', {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
@@ -62,7 +62,7 @@ const AuthContextComp = ({ children }) => {
     if (user?.uid) {
       setUserProfileLoading(true);
 
-      axios.get(`http://localhost:5000/users/uid/${user.uid}`, {
+      axios.get(`https://antique-watches.vercel.app/users/uid/${user.uid}`, {
         headers: {
           authorization: `Bearer ${localStorage.getItem('antique-token')}`
         }
@@ -99,6 +99,7 @@ const AuthContextComp = ({ children }) => {
     user,
     userProfile,
     userLoading,
+    setUserLoading,
     userProfileLoading,
     userLogin,
     userRegister,

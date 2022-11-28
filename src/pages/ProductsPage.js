@@ -19,7 +19,7 @@ const ProductsPage = () => {
     queryFn: async () => {
 
       if (user?.uid) {
-        const res = await fetch(`http://localhost:5000/products/`, {
+        const res = await fetch(`https://antique-watches.vercel.app/products/`, {
           headers: {
             authorization: `Bearer ${localStorage.getItem('antique-token')}`,
             email: user.email
@@ -37,7 +37,7 @@ const ProductsPage = () => {
   const [itemDelete, setItemDelete] = useState(null);
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/products?delete=${id}`, {
+    fetch(`https://antique-watches.vercel.app/products?delete=${id}`, {
       method: 'DELETE',
       headers: {
         authorization: `Bearer ${localStorage.getItem('antique-token')}`
@@ -54,7 +54,7 @@ const ProductsPage = () => {
     const data = isAdvertise === 'true' ? 'false' : 'true';
     const update = { advertise: data }
 
-    fetch(`http://localhost:5000/products?update=${id}`, {
+    fetch(`https://antique-watches.vercel.app/products?update=${id}`, {
       method: 'PATCH',
       headers: {
         'content-type': 'application/json',

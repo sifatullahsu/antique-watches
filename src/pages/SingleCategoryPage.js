@@ -19,7 +19,7 @@ const SingleCategoryPage = () => {
     queryFn: async () => {
       if (userProfile?._id) {
 
-        const url = `http://localhost:5000/products/categories?catID=${propsID}&userID=${userProfile._id}`;
+        const url = `https://antique-watches.vercel.app/products/categories?catID=${propsID}&userID=${userProfile._id}`;
         const res = await fetch(url, {
           headers: {
             authorization: `Bearer ${localStorage.getItem('antique-token')}`,

@@ -14,7 +14,7 @@ const SellerRoute = ({ children }) => {
 
 
   useEffect(() => {
-    const url = `http://localhost:5000/users/uid/${user?.uid}`;
+    const url = `https://antique-watches.vercel.app/users/uid/${user?.uid}`;
 
     if (user?.uid) {
       fetch(url, {

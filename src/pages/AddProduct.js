@@ -22,7 +22,7 @@ const AddProduct = () => {
   const { data: categories = [], isLoading } = useQuery({
     queryKey: ['categories', location],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/categories`);
+      const res = await fetch(`https://antique-watches.vercel.app/categories`);
       const data = await res.json();
 
       return data;
@@ -55,7 +55,7 @@ const AddProduct = () => {
           description, imgURL, category, author: userProfile._id, publishedDate: date
         }
 
-        fetch('http://localhost:5000/products', {
+        fetch('https://antique-watches.vercel.app/products', {
           method: 'POST',
           headers: {
             'content-type': 'application/json',

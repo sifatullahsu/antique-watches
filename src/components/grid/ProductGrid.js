@@ -82,17 +82,17 @@ const ProductGrid = ({ product, setBuyNow, setComplaint, userProfile }) => {
       <div className='flex flex-nowrap items-end justify-between mt-5'>
         <div className='author flex flex-nowrap'>
           <div className='basis-auto'>
-            <img src={authorInfo.image} className='w-12 h-12' alt="" />
+            <img src={authorInfo?.image} className='w-12 h-12' alt="" />
           </div>
           <div className='basis-auto pl-3'>
             <div>
-              <h5 className='uppercase font-semibold inline'>{authorInfo.name}</h5>
+              <h5 className='uppercase font-semibold inline'>{authorInfo?.name}</h5>
               {
-                authorInfo.verified === 'true' &&
+                authorInfo?.verified === 'true' &&
                 <FaCheckCircle className='text-blue-500 inline ml-2 -mt-1'></FaCheckCircle>
               }
             </div>
-            <span className='uppercase text-xs text-gray-400'>{authorInfo.role === 'seller' ? 'SELLER' : null}</span>
+            <span className='uppercase text-xs text-gray-400'>{authorInfo?.role === 'seller' ? 'SELLER' : null}</span>
           </div>
         </div>
         {

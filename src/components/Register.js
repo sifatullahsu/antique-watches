@@ -4,9 +4,10 @@ import toast from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContextComp';
 import GoogleSignIn from './GoogleSignIn';
+import Loading from './Loading';
 
 const Register = () => {
-  const { userRegister, getUserJwt } = useContext(AuthContext);
+  const { userRegister, getUserJwt, userLoading, setUserLoading } = useContext(AuthContext);
   const { register, handleSubmit, reset } = useForm();
   const imageHostKey = process.env.REACT_APP_IMGBB_API;
 
@@ -42,7 +43,7 @@ const Register = () => {
               const role = isSeller ? 'seller' : 'buyer';
               const data = { name, email, image: imageURL, role, verified: 'false', uid }
 
-              fetch('http://localhost:5000/users', {
+              fetch('https://antique-watches.vercel.app/users', {
                 method: 'POST',
                 headers: {
                   'content-type': 'application/json'
@@ -65,21 +66,21 @@ const Register = () => {
           .catch(err => {
             console.log(err);
             toast.error('Somthing is wrong..')
+            setUserLoading(false);
           })
       })
       .catch(err => {
         console.log(err);
-        toast.error('Somthing is wrong..')
+        toast.error('Somthing is wrong..');
+        setUserLoading(false);
       })
-
-
-
-
-
-
-
   }
 
+  if (userLoading) {
+    return (
+      <Loading></Loading>
+    );
+  }
 
   return (
     <div>
