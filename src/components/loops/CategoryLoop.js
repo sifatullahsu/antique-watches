@@ -3,7 +3,7 @@ import CategoryGrid from '../grid/CategoryGrid';
 
 const CategoryLoop = ({ categories }) => {
   return (
-    <div className='grid grid-cols-3 gap-5'>
+    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
       {
         categories.map(category => <CategoryGrid key={category._id} category={category}></CategoryGrid>)
       }

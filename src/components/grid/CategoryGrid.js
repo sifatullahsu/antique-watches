@@ -6,7 +6,7 @@ const CategoryGrid = ({ category }) => {
   const { _id, catName, catImage } = category;
 
   return (
-    <div className='border'>
+    <div className='bg-white border'>
       <img src={catImage} className='border-b' alt="" />
       <div className='flex justify-between px-5 py-4'>
         <div className='basis-auto'>

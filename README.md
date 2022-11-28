@@ -1,70 +1,46 @@
-# Getting Started with Create React App
+# Antique Watch
+Website developed on React JS. To visit the Website [click here](https://antique-watches.web.app/).
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Here We Used
+ - react-router-dom
+ - react-hot-toast
+ - react-icons
+ - firebase
+ - tailwindcss
+ - daisyui
+ - react-photo-view
+ - date-fns
+ - react-hook-form
+ - swiper
+ - axios
+ - react-query
+ - react-stripe-js
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Website Features
+- Here users can register accounts with google, and email password
+- When users will change the route the it'll automatically scroll to the top of the page.
+- Here we used private route for confidential informations.
+- Here we used firebase for users authentications.
+- We solved the private route redirect issue. We dynamically redirect after user logged in.
+- Here we use our own server to server data via API requests.
+- Showing a diffrent message for not loggedin users.
+- Here we used express, cors, dotenv, jsonwebtoken, mongodb
+- We store data on MongoDB
+- Here we used jwt for api authorizations
+- Here we used user role based authorizations (Buyers, Sellers, Admins)
+- Buyer & any other role can buy anything from the website
+- Booked information will store on DB and showing on the dashboard
+- User can pay the booking for purchase using stripe
+- After a product bought, others users can't purchase that picture
+- User can delete their booking from dashboard
+- Seller can create, edit, delete selling post from dashboard
+- Seller also can advertise their product by clicking toggle button
+- Seller can see which users are booked their product
+- Admin can view, delete any users.
+- Admin also can verified any user by clicking toggle button.
+- Admin can edit the product any of selers product. But can't add.
+- Admin can create, edit, delete categories from dashboard.
+- Registered users can submit complaint to the admin.
+- Admin can see, delete the reported items from dashboard.

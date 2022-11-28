@@ -3,6 +3,7 @@ import AddProduct from "../pages/AddProduct";
 import AllCategoriesPage from "../pages/AllCategoriesPage";
 import BlogPage from "../pages/BlogPage";
 import CategoriesPage from "../pages/CategoriesPage";
+import CheckoutPage from "../pages/CheckoutPage";
 import EditCategory from "../pages/EditCategory";
 import EditProduct from "../pages/EditProduct";
 import ErrorPage from "../pages/ErrorPage";
@@ -17,6 +18,7 @@ import SingleCategoryPage from "../pages/SingleCategoryPage";
 import UsersPage from "../pages/UsersPage";
 import DashTemp from "../templates/DashTemp";
 import MainTemp from "../templates/MainTemp";
+import PrivateRoute from "./PrivateRoute";
 
 const { createBrowserRouter } = require("react-router-dom");
 
@@ -49,6 +51,10 @@ export const router = createBrowserRouter([
       {
         path: 'register',
         element: <RegisterPage></RegisterPage>
+      },
+      {
+        path: '/*',
+        element: <ErrorPage></ErrorPage>
       }
     ]
   },
@@ -60,17 +66,17 @@ export const router = createBrowserRouter([
       // Default for all user role
       {
         path: '',
-        element: ''
+        element: <PrivateRoute role='any'><div></div></PrivateRoute>
       },
       {
         path: 'my-orders',
-        element: <MyOrderPage></MyOrderPage>
+        element: <PrivateRoute role='any'><MyOrderPage></MyOrderPage></PrivateRoute>
       },
 
       // For only sellers
       {
         path: 'add-product',
-        element: <AddProduct></AddProduct>
+        element: <PrivateRoute role='seller'><AddProduct></AddProduct></PrivateRoute>
       },
       {
         path: 'my-products',
@@ -118,10 +124,10 @@ export const router = createBrowserRouter([
         path: 'reported-items',
         element: <ReportedItemsPage></ReportedItemsPage>
       },
+      {
+        path: 'checkout/:id',
+        element: <CheckoutPage></CheckoutPage>
+      },
     ]
-  },
-  {
-    path: '/*',
-    element: <ErrorPage></ErrorPage>
   }
 ]);

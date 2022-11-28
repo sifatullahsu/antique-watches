@@ -27,10 +27,23 @@ h5 {
   font-family: 'Alegreya', serif;
 }
 
-
+.content,
 #content {
   @apply py-20;
 }
+
+
+@media (max-width: 1024px) {
+  h4 {
+    @apply text-xl font-semibold;
+  }
+
+  h5 {
+    @apply text-lg font-semibold;
+  }
+}
+
+@media (max-width: 767px) {}
 
 .form-control input {
   @apply input input-bordered;
@@ -62,7 +75,7 @@ h5 {
 
 .seperator {
   content: "";
-  @apply w-16 h-1 bg-primary inline-block;
+  @apply w-16 h-1 inline-block;
 }
 
 
@@ -141,5 +154,35 @@ table .toggle:checked {
 
 .myfont {
   font-family: 'Alegreya', serif;
+}
 
+.swiper-pagination {
+  position: unset !important;
+  margin-top: 20px;
+}
+
+.swiper-pagination-bullet-active {
+  @apply bg-primary !important;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  @apply bg-primary text-white text-xl p-2 !important;
+}
+
+
+.swiper-button-next {
+  right: -5px !important;
+  transform: translateY(-50%);
+}
+
+.swiper-button-prev {
+  left: -5px !important;
+  transform: translateY(-50%);
+}
+
+.swiper .swiper-button-next:after,
+.swiper .swiper-button-prev:after {
+  padding: 0.3rem !important;
+  font-size: .7rem !important;
 }

@@ -20,6 +20,13 @@ module.exports = {
   },
   plugins: [require("daisyui")],
   daisyui: {
-    themes: ["lofi"]
+    themes: [
+      {
+        mytheme: {
+          ...require("daisyui/src/colors/themes")["[data-theme=lofi]"],
+          secondary: "#FBBF24",
+        },
+      },
+    ]
   }
 }

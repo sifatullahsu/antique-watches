@@ -55,7 +55,7 @@ const ProductsPage = () => {
       })
   }
 
-
+  console.log(products);
   if (isLoading) {
     return (
       <DashLoading></DashLoading>
@@ -74,7 +74,6 @@ const ProductsPage = () => {
               <th className='rounded-none'>No.</th>
               <th>Image</th>
               <th>Name</th>
-              <th>Author</th>
               <th>Status</th>
               <th className='text-right'>Advertise</th>
               <th className='rounded-none text-right'>Actions</th>
@@ -88,7 +87,6 @@ const ProductsPage = () => {
                     <th>{index + 1}</th>
                     <td><img className='w-14 border' src={product.imgURL} alt="" /></td>
                     <td className='font-semibold'>{product.name}</td>
-                    <td>{product.author}</td>
                     <td><span
                       className={`text-white px-3 py-1 text-xs uppercase rounded-full ${product.itemStatus === 'unsold' ? 'bg-red-600' : 'bg-green-600'}`}
                     >{product.itemStatus}</span></td>

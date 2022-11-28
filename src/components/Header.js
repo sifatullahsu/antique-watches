@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaBars } from "react-icons/fa";
 import { AuthContext } from '../contexts/AuthContextComp';
 import toast from 'react-hot-toast';
+import logo from '../assets/images/logo.png';
 
 const Header = () => {
 
@@ -28,7 +29,9 @@ const Header = () => {
         {
           user?.uid ?
             <>
-              <li><Link to='/dashboard'>Dashboard</Link></li>
+              <li>
+                <Link to='/dashboard'>Dashboard</Link>
+              </li>
               <li><button onClick={handleUserLogout}>Logout</button></li>
             </>
             :
@@ -42,14 +45,18 @@ const Header = () => {
   }
 
   return (
-    <header className='bg-primary text-base-100'>
+    <header className='bg-neutral text-base-100'>
       <div className="navbar container">
         <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden"><FaBars></FaBars></label>
-            <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow  rounded-box w-52">{menu()}</ul>
+            <ul tabIndex={0} className="menu menu-compact dropdown-content bg-primary mt-3 p-2 shadow  rounded-box w-52">{menu()}</ul>
           </div>
-          <Link to="/" className="btn btn-ghost normal-case text-xl">Antique Watches</Link>
+          <div>
+            <Link to="/" className="btn btn-ghost w-[180px]">
+              <img src={logo} className='w-full' alt="" />
+            </Link>
+          </div>
         </div>
         <div className="navbar-end">
           <div className='hidden lg:flex'>

@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
-import { FaEdit, FaTrashAlt } from 'react-icons/fa';
-import { useLocation } from 'react-router-dom';
+import { FaTrashAlt } from 'react-icons/fa';
+import { Link, useLocation } from 'react-router-dom';
 import DashLoading from '../components/DashLoading';
 import Heading from '../components/Heading';
 import ModalCom from '../components/ModalCom';
@@ -43,15 +43,12 @@ const MyOrderPage = () => {
       })
   }
 
-  console.log(orders);
-
 
   if (isLoading) {
     return (
       <DashLoading></DashLoading>
     );
   }
-
 
   return (
     <div>
@@ -75,17 +72,22 @@ const MyOrderPage = () => {
               <tbody>
                 {
                   orders?.map((order, index) => {
+
                     return (
                       <tr key={order._id}>
                         <th>{index + 1}</th>
-                        <td>{order.productName}</td>
-                        <td>${order.productPrice}</td>
-                        <td>unsold -- etst</td>
+                        <td>{order.productInfo.name}</td>
+                        <td>${order.productInfo.price}</td>
+                        <td><span
+                          className={`text-white px-3 py-1 text-xs uppercase rounded-full ${order.productInfo.itemStatus === 'unsold' ? 'bg-red-600' : 'bg-green-600'}`}
+                        >{order.productInfo.itemStatus}</span></td>
                         <td className='text-right'>
-                          <button className='btn btn-primary btn-sm'>Pay Now</button>
+                          <Link
+                            className='btn btn-primary btn-sm text-xs py-1'
+                            to={`/dashboard/checkout/${order._id}`}
+                          >Pay Now</Link>
                         </td>
                         <td className='text-right'>
-                          <button className='btn btn-ghost btn-sm px-2'><FaEdit></FaEdit></button>
                           <label
                             htmlFor="delete-modal"
                             className='btn btn-ghost btn-sm px-2'

@@ -11,6 +11,7 @@ const AuthContextComp = ({ children }) => {
   const [user, setUser] = useState({});
   const [userProfile, setUserProfile] = useState({});
   const [userLoading, setUserLoading] = useState(true);
+  const [userProfileLoading, setUserProfileLoading] = useState(true);
 
   const googleProvider = new GoogleAuthProvider();
 
@@ -40,9 +41,13 @@ const AuthContextComp = ({ children }) => {
 
   useEffect(() => {
     if (user?.uid) {
+      setUserProfileLoading(true);
       fetch(`http://localhost:5000/users/uid/${user.uid}`)
         .then(res => res.json())
-        .then(data => setUserProfile(data))
+        .then(data => {
+          setUserProfile(data);
+          setUserProfileLoading(false);
+        })
         .catch(err => console.log(err))
     }
   }, [user]);
@@ -66,6 +71,7 @@ const AuthContextComp = ({ children }) => {
     user,
     userProfile,
     userLoading,
+    userProfileLoading,
     userLogin,
     userRegister,
     userLogout,
