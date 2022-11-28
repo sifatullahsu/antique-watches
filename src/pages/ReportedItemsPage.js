@@ -16,7 +16,7 @@ const ReportedItemsPage = () => {
   const { data: complaints = [], isLoading, isError, refetch } = useQuery({
     queryKey: ['complaints', location],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/complaints`);
+      const res = await fetch(`https://antique-watches.vercel.app/complaints`);
       const data = await res.json();
 
       return data;
@@ -29,7 +29,7 @@ const ReportedItemsPage = () => {
   const [complaintReport, setComplaintReport] = useState(null);
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/complaints?delete=${id}`, {
+    fetch(`https://antique-watches.vercel.app/complaints?delete=${id}`, {
       method: 'DELETE',
       headers: {}
     })

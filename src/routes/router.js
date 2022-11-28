@@ -41,7 +41,7 @@ export const router = createBrowserRouter([
       {
         path: 'categories',
         element: <AllCategoriesPage></AllCategoriesPage>,
-        loader: () => fetch('http://localhost:5000/categories')
+        loader: () => fetch('https://antique-watches.vercel.app/categories')
       },
       {
         path: 'categories/:id',
@@ -130,7 +130,7 @@ export const router = createBrowserRouter([
       {
         path: 'checkout/:id',
         element: <PrivateRoute><CheckoutPage></CheckoutPage></PrivateRoute>,
-        loader: ({ params }) => fetch(`http://localhost:5000/orders/${params.id}`)
+        loader: ({ params }) => fetch(`https://antique-watches.vercel.app/orders/${params.id}`)
       },
     ]
   }

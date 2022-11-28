@@ -15,7 +15,7 @@ const CategoriesPage = () => {
   const { data: categories = [], isLoading, refetch } = useQuery({
     queryKey: ['categories', location],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/categories`);
+      const res = await fetch(`https://antique-watches.vercel.app/categories`);
       const data = await res.json();
 
       return data;
@@ -25,7 +25,7 @@ const CategoriesPage = () => {
   const [itemDelete, setItemDelete] = useState(null);
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/categories?delete=${id}`, {
+    fetch(`https://antique-watches.vercel.app/categories?delete=${id}`, {
       method: 'DELETE',
       headers: {}
     })

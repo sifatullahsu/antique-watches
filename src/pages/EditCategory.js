@@ -15,7 +15,7 @@ const EditCategory = () => {
   const { data: categories = [] } = useQuery({
     queryKey: ['categories', location],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/categories/id/${id}`);
+      const res = await fetch(`https://antique-watches.vercel.app/categories/id/${id}`);
       const data = await res.json();
 
       return data;
@@ -24,7 +24,7 @@ const EditCategory = () => {
 
 
   const updateCategoryData = (data, form) => {
-    fetch(`http://localhost:5000/categories?update=${id}`, {
+    fetch(`https://antique-watches.vercel.app/categories?update=${id}`, {
       method: 'PATCH',
       headers: {
         'content-type': 'application/json'

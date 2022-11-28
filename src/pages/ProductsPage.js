@@ -16,7 +16,7 @@ const ProductsPage = () => {
   const { data: products = [], isLoading, refetch } = useQuery({
     queryKey: ['products', location],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/products/`);
+      const res = await fetch(`https://antique-watches.vercel.app/products/`);
       const data = await res.json();
 
       return data;
@@ -27,7 +27,7 @@ const ProductsPage = () => {
   const [itemDelete, setItemDelete] = useState(null);
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/products?delete=${id}`, {
+    fetch(`https://antique-watches.vercel.app/products?delete=${id}`, {
       method: 'DELETE',
       headers: {}
     })
@@ -42,7 +42,7 @@ const ProductsPage = () => {
     const data = isAdvertise === 'true' ? 'false' : 'true';
     const update = { advertise: data }
 
-    fetch(`http://localhost:5000/products?update=${id}`, {
+    fetch(`https://antique-watches.vercel.app/products?update=${id}`, {
       method: 'PATCH',
       headers: {
         'content-type': 'application/json'

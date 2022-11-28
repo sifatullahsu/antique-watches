@@ -17,7 +17,7 @@ const SingleCategoryPage = () => {
     queryKey: ['products', location, userProfile],
     queryFn: async () => {
       if (userProfile?._id) {
-        const res = await fetch(`http://localhost:5000/products/categories?catID=${propsID}&userID=${userProfile._id}`);
+        const res = await fetch(`https://antique-watches.vercel.app/products/categories?catID=${propsID}&userID=${userProfile._id}`);
         const data = await res.json();
 
         return data;

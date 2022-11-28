@@ -17,7 +17,7 @@ const EditProduct = () => {
   const { data: query = {}, isLoading } = useQuery({
     queryKey: ['query', location],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/products/id/${id}`);
+      const res = await fetch(`https://antique-watches.vercel.app/products/id/${id}`);
       const data = await res.json();
 
       return data;
@@ -27,7 +27,7 @@ const EditProduct = () => {
   const { data: categories = [] } = useQuery({
     queryKey: ['categories'],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/categories`);
+      const res = await fetch(`https://antique-watches.vercel.app/categories`);
       const data = await res.json();
 
       return data;
@@ -37,7 +37,7 @@ const EditProduct = () => {
 
 
   const updateProductsDataFromBD = (formData, form) => {
-    fetch(`http://localhost:5000/products?update=${id}`, {
+    fetch(`https://antique-watches.vercel.app/products?update=${id}`, {
       method: 'PATCH',
       headers: {
         'content-type': 'application/json'

@@ -17,7 +17,7 @@ const MyOrderPage = () => {
     queryKey: ['orders', location, userProfile],
     queryFn: async () => {
       if (userProfile?._id) {
-        const res = await fetch(`http://localhost:5000/orders/userid/${userProfile?._id}`);
+        const res = await fetch(`https://antique-watches.vercel.app/orders/userid/${userProfile?._id}`);
         const data = await res.json();
 
         return data;
@@ -32,7 +32,7 @@ const MyOrderPage = () => {
 
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/orders?delete=${id}`, {
+    fetch(`https://antique-watches.vercel.app/orders?delete=${id}`, {
       method: 'DELETE',
       headers: {}
     })
