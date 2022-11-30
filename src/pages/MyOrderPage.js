@@ -2,15 +2,19 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaTrashAlt } from 'react-icons/fa';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import CheckoutModal from '../components/CheckoutModal';
+import DashLoading from '../components/DashLoading';
 import Heading from '../components/Heading';
-import Loading from '../components/Loading';
 import ModalCom from '../components/ModalCom';
 import { AuthContext } from '../contexts/AuthContextComp';
 
 const MyOrderPage = () => {
-  const location = useLocation();
   const { userProfile } = useContext(AuthContext);
+  const location = useLocation();
+
+  const [checkoutItem, setCheckoutItem] = useState(null);
+  const [itemDelete, setItemDelete] = useState(null);
 
 
   const { data: orders = [], isLoading, refetch } = useQuery({
@@ -32,8 +36,6 @@ const MyOrderPage = () => {
     }
   });
 
-  const [itemDelete, setItemDelete] = useState(null);
-
 
   const handleDelete = (id) => {
     fetch(`https://antique-watches.vercel.app/orders?delete=${id}`, {
@@ -52,7 +54,7 @@ const MyOrderPage = () => {
 
   if (isLoading) {
     return (
-      <Loading></Loading>
+      <DashLoading></DashLoading>
     );
   }
 
@@ -97,10 +99,11 @@ const MyOrderPage = () => {
                         <td className='text-right'>
                           {
                             order.productInfo.itemStatus === 'unsold' &&
-                            <Link
-                              className='btn btn-primary btn-sm text-xs py-1'
-                              to={`/dashboard/checkout/${order._id}`}
-                            >Pay Now</Link>
+                            <label
+                              htmlFor="checkout-modal"
+                              className="btn btn-primary btn-sm"
+                              onClick={() => setCheckoutItem(order)}
+                            >Pay Now</label>
                           }
                           {
                             order.productInfo.itemStatus === 'sold' && order.userID === order?.purchased?.userID &&
@@ -114,7 +117,7 @@ const MyOrderPage = () => {
                         </td>
                         <td className='text-right'>
                           {
-                            order.productInfo.itemStatus === 'sold' && order.userID !== order?.purchased?.userID &&
+                            order.productInfo.itemStatus !== 'sold' && order.userID !== order?.purchased?.userID &&
                             <label
                               htmlFor="delete-modal"
                               className='btn btn-ghost btn-sm px-2'
@@ -146,6 +149,16 @@ const MyOrderPage = () => {
           handleDelete={handleDelete}
         ></ModalCom>
       }
+
+      {
+        checkoutItem &&
+        <CheckoutModal
+          order={checkoutItem}
+          setCheckoutItem={setCheckoutItem}
+        ></CheckoutModal>
+      }
+
+
     </div >
   );
 };

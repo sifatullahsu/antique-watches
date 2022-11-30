@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import toast from 'react-hot-toast';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContextComp';
 
 const DashSidebar = () => {
@@ -8,13 +8,16 @@ const DashSidebar = () => {
   const path = useLocation().pathname;
   const { userProfile, userLogout } = useContext(AuthContext);
 
+  const navigate = useNavigate();
+
   const handleUserLogout = () => {
     userLogout()
       .then(result => {
-        toast.success('Logout successfull..')
+        toast.success('Logout successfull..');
+        navigate('/login');
       })
       .catch(err => {
-        toast.error('Somthing is wrong..')
+        toast.error('Somthing is wrong..');
         console.log(err);
       })
   }
@@ -50,6 +53,7 @@ const DashSidebar = () => {
         </>
       }
       <span className='uppercase text-xs text-gray-700 mt-5 mb-3'>Action</span>
+      {/* <li><NavLink to='/dashboard/settings'>Settings</NavLink></li> */}
       <li><button onClick={handleUserLogout}>Logout</button></li>
     </ul >
   );

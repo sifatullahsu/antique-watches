@@ -5,14 +5,14 @@ import Heading from '../components/Heading';
 import ModalCom from '../components/ModalCom';
 import { useQuery } from '@tanstack/react-query';
 import { Link, useLocation } from 'react-router-dom';
-import Loading from '../components/Loading';
 import { AuthContext } from '../contexts/AuthContextComp';
+import DashLoading from '../components/DashLoading';
 
 
 const ProductsPage = () => {
   const { user, userLoading } = useContext(AuthContext);
-
   const location = useLocation();
+
 
   const { data: products = [], isLoading, refetch } = useQuery({
     queryKey: ['products', location],
@@ -71,7 +71,7 @@ const ProductsPage = () => {
 
   if (isLoading || userLoading) {
     return (
-      <Loading></Loading>
+      <DashLoading></DashLoading>
     );
   }
 

@@ -6,18 +6,17 @@ import Heading from '../components/Heading';
 import { useQuery } from '@tanstack/react-query';
 import { AuthContext } from '../contexts/AuthContextComp';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Loading from '../components/Loading';
+import DashLoading from '../components/DashLoading';
 
 const AddProduct = () => {
+  const { userProfile, userLoading, setUserLoading } = useContext(AuthContext);
+  const { register, handleSubmit, reset } = useForm();
+  const imageHostKey = process.env.REACT_APP_IMGBB_API;
 
   const location = useLocation();
   const navigate = useNavigate();
   const date = format(new Date(), 'Pp');
 
-  const imageHostKey = process.env.REACT_APP_IMGBB_API;
-
-  const { userProfile } = useContext(AuthContext);
-  const { register, handleSubmit, reset } = useForm();
 
   const { data: categories = [], isLoading } = useQuery({
     queryKey: ['categories', location],
@@ -34,6 +33,7 @@ const AddProduct = () => {
       name, price, buyingPrice, condition, purchasedYear, number, location, description, image, category
     } = formData;
 
+    setUserLoading(true);
 
     if (image[0].type !== 'image/png') {
       return toast.error('Only image/png type is allowed');
@@ -67,17 +67,25 @@ const AddProduct = () => {
           .then(data => {
             toast.success('Producut added successful..');
             reset();
-            navigate('/dashboard/my-products')
+            navigate('/dashboard/my-products');
+            setUserLoading(false);
+          })
+          .catch(err => {
+            toast.success('Somthing is wrong..');
+            setUserLoading(false);
           })
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        toast.success('Somthing is wrong..');
+        setUserLoading(false);
+      })
   }
 
 
 
-  if (isLoading) {
+  if (isLoading || userLoading) {
     return (
-      <Loading></Loading>
+      <DashLoading></DashLoading>
     );
   }
 

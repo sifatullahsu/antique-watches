@@ -3,7 +3,6 @@ import AddProduct from "../pages/AddProduct";
 import AllCategoriesPage from "../pages/AllCategoriesPage";
 import BlogPage from "../pages/BlogPage";
 import CategoriesPage from "../pages/CategoriesPage";
-import CheckoutPage from "../pages/CheckoutPage";
 import DashPage from "../pages/DashPage";
 import EditCategory from "../pages/EditCategory";
 import EditProduct from "../pages/EditProduct";
@@ -16,6 +15,7 @@ import MyProductsPage from "../pages/MyProductsPage";
 import ProductsPage from "../pages/ProductsPage";
 import RegisterPage from "../pages/RegisterPage";
 import ReportedItemsPage from "../pages/ReportedItemsPage";
+import SettingsPage from "../pages/SettingsPage";
 import SingleCategoryPage from "../pages/SingleCategoryPage";
 import UsersPage from "../pages/UsersPage";
 import DashTemp from "../templates/DashTemp";
@@ -76,6 +76,10 @@ export const router = createBrowserRouter([
         path: 'my-orders',
         element: <PrivateRoute><MyOrderPage></MyOrderPage></PrivateRoute>
       },
+      /*  {
+         path: 'settings',
+         element: <PrivateRoute><SettingsPage></SettingsPage></PrivateRoute>
+       }, */
 
       // For only sellers
       {
@@ -127,12 +131,7 @@ export const router = createBrowserRouter([
       {
         path: 'reported-items',
         element: <AdminRoute><ReportedItemsPage></ReportedItemsPage></AdminRoute>
-      },
-      {
-        path: 'checkout/:id',
-        element: <PrivateRoute><CheckoutPage></CheckoutPage></PrivateRoute>,
-        loader: ({ params }) => fetch(`https://antique-watches.vercel.app/orders/${params.id}`)
-      },
+      }
     ]
   }
 ]);

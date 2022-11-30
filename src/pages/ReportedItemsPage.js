@@ -4,8 +4,8 @@ import toast from 'react-hot-toast';
 import { FaCheckCircle, FaTrashAlt } from 'react-icons/fa';
 import { RiEyeFill } from 'react-icons/ri';
 import { useLocation } from 'react-router-dom';
+import DashLoading from '../components/DashLoading';
 import Heading from '../components/Heading';
-import Loading from '../components/Loading';
 import ModalCom from '../components/ModalCom';
 import { AuthContext } from '../contexts/AuthContextComp';
 
@@ -37,7 +37,6 @@ const ReportedItemsPage = () => {
   });
 
 
-
   const [itemDelete, setItemDelete] = useState(null);
   const [complaintReport, setComplaintReport] = useState(null);
 
@@ -58,7 +57,7 @@ const ReportedItemsPage = () => {
 
   if (isLoading || userLoading) {
     return (
-      <Loading></Loading>
+      <DashLoading></DashLoading>
     );
   }
 
@@ -90,7 +89,7 @@ const ReportedItemsPage = () => {
                 return (
                   <tr key={complaint._id}>
                     <th>{index + 1}</th>
-                    <td>{complaint.productInfo.name}</td>
+                    <td>{complaint.productInfo?.name}</td>
                     <td>{complaint?.userInfo?.email}</td>
                     <td className='text-right'>
                       <label
@@ -135,8 +134,8 @@ const ReportedItemsPage = () => {
               <h5>Complaint details..</h5>
 
               <div className='mt-2'>
-                <sapn className='font-semibold'>{complaintReport.productInfo.name}</sapn>
-                <span className='text-xs'> - ${complaintReport.productInfo.price}</span>
+                <div className='font-semibold inline'>{complaintReport?.productInfo?.name}</div>
+                <div className='text-xs inline'> - ${complaintReport?.productInfo?.price}</div>
               </div>
               <p className='pt-5'><span className='text-xs font-semibold uppercase'>Reason: </span>{complaintReport.reason}</p>
 
@@ -144,17 +143,17 @@ const ReportedItemsPage = () => {
               <div className='flex flex-nowrap justify-between items-end mt-6'>
                 <div className='flex flex-nowrap'>
                   <div className='basis-auto'>
-                    <img src={complaintReport.userInfo.image} className='w-12 h-12' alt="" />
+                    <img src={complaintReport.userInfo?.image} className='w-12 h-12' alt="" />
                   </div>
                   <div className='basis-auto pl-3'>
                     <div>
-                      <h5 className='uppercase text-sm font-semibold text-primary-200 inline'>{complaintReport.userInfo.name}</h5>
+                      <h5 className='uppercase text-sm font-semibold text-primary-200 inline'>{complaintReport.userInfo?.name}</h5>
                       {
-                        complaintReport.userInfo.verified === 'true' &&
+                        complaintReport.userInfo?.verified === 'true' &&
                         <FaCheckCircle className='text-blue-500 inline ml-2 -mt-1'></FaCheckCircle>
                       }
                     </div>
-                    <span className='uppercase text-xs text-gray-400'>{complaintReport.userInfo.role}</span>
+                    <span className='uppercase text-xs text-gray-400'>{complaintReport.userInfo?.role}</span>
                   </div>
                 </div>
                 <label

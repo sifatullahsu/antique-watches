@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import toast from 'react-hot-toast';
 import Heading from '../components/Heading';
 import { useQuery } from '@tanstack/react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Loading from '../components/Loading';
+import { AuthContext } from '../contexts/AuthContextComp';
+import DashLoading from '../components/DashLoading';
 
 const EditProduct = () => {
+
+  const { userProfile, testLoading, setTestLoading } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -54,20 +57,23 @@ const EditProduct = () => {
         if (data.acknowledged) {
           toast.success('Producut update successful..');
           form.reset();
-          navigate('/dashboard/my-products');
+          navigate(`/dashboard/${userProfile.role === 'admin' ? 'products' : 'my-products'}`);
+          setTestLoading(false);
         }
         else {
+          setTestLoading(false);
           toast.error('You are not authorized user..');
           form.reset();
           navigate('/login');
         }
-
       })
   }
 
 
   const handleEditProduct = (event) => {
     event.preventDefault();
+
+    setTestLoading(true);
 
     const form = event.target;
 
@@ -108,9 +114,9 @@ const EditProduct = () => {
     }
   }
 
-  if (isLoading) {
+  if (isLoading || testLoading) {
     return (
-      <Loading></Loading>
+      <DashLoading></DashLoading>
     );
   }
 

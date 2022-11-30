@@ -95,7 +95,7 @@ const CheckoutForm = ({ order }) => {
     <div>
       <form onSubmit={handleCheckout}>
         <CardElement
-          className='max-w-xs'
+          className='border p-5'
           options={{
             style: {
               base: {
@@ -111,8 +111,8 @@ const CheckoutForm = ({ order }) => {
             },
           }}
         />
-        <button className='btn btn-primary btn-sm mt-5' type="submit" disabled={!stripe || !clientSecret}>
-          Pay
+        <button className='btn btn-primary w-full  mt-5' type="submit" disabled={!stripe || !clientSecret}>
+          Purchase Now
         </button>
       </form>
     </div>

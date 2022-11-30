@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import cover from '../assets/images/cover.webp';
 
 const Hero = () => {
@@ -9,7 +10,7 @@ const Hero = () => {
         <div className="max-w-md">
           <h1 className="text-[40px] md:text-[60px] text-secondary mb-5">The Watch Everyone's Desire</h1>
           <p className="mb-5">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
-          <button className="btn btn-outline btn-secondary">Get Started</button>
+          <Link to='/login' className="btn btn-outline btn-secondary">Get Started</Link>
         </div>
       </div>
     </div>

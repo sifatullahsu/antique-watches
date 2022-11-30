@@ -1,18 +1,21 @@
 import React, { useContext } from 'react';
 import { useForm } from "react-hook-form";
 import toast from 'react-hot-toast';
+import DashLoading from '../components/DashLoading';
 import Heading from '../components/Heading';
 import { AuthContext } from '../contexts/AuthContextComp';
 
 const AddCategory = () => {
 
-  const { user } = useContext(AuthContext);
+  const { user, userLoading, setUserLoading } = useContext(AuthContext);
 
   const { register, handleSubmit, reset } = useForm();
   const imageHostKey = process.env.REACT_APP_IMGBB_API;
 
   const handleAddCategory = (formData) => {
     const { catName, catImage } = formData;
+
+    setUserLoading(true);
 
     if (catImage[0].type !== 'image/png') {
       return toast.error('Only image/png type is allowed');
@@ -46,9 +49,23 @@ const AddCategory = () => {
           .then(data => {
             toast.success('Category added successful..');
             reset();
+            setUserLoading(false);
+          })
+          .catch(err => {
+            toast.success('Somthing is wrong..');
+            setUserLoading(false);
           })
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        toast.success('Somthing is wrong..');
+        setUserLoading(false);
+      })
+  }
+
+  if (userLoading) {
+    return (
+      <DashLoading></DashLoading>
+    );
   }
 
   return (

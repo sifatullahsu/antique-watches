@@ -1,45 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
+import toast from 'react-hot-toast';
 import { Navigate, useLocation } from 'react-router-dom';
 import Loading from '../components/Loading';
 import { AuthContext } from '../contexts/AuthContextComp';
 
 const SellerRoute = ({ children }) => {
 
+  const { user, userProfile, userLoading } = useContext(AuthContext);
   const location = useLocation();
-  const { user, userLoading } = useContext(AuthContext);
-  const [userProfile, setUserProfile] = useState({});
-
-  const [loading, setLoading] = useState(true);
 
 
-
-  useEffect(() => {
-    const url = `https://antique-watches.vercel.app/users/uid/${user?.uid}`;
-
-    if (user?.uid) {
-      fetch(url, {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem('antique-token')}`
-        }
-      })
-        .then(res => res.json())
-        .then(data => {
-          setLoading(false);
-          setUserProfile(data);
-        })
-        .catch(err => {
-          setLoading(false);
-        })
-    }
-    else if (user === null) {
-      setLoading(false);
-    }
-
-  }, [user]);
-
-
-
-  if ((userLoading || loading)) {
+  if ((userLoading)) {
     return <Loading></Loading>
   }
 
@@ -47,6 +18,7 @@ const SellerRoute = ({ children }) => {
     return children;
   }
 
+  // toast.error('Unauthorize Access. Please Login..');
   return <Navigate to='/login' state={{ from: location }} replace></Navigate>;
 };
 

@@ -12,6 +12,7 @@ const AuthContextComp = ({ children }) => {
   const [user, setUser] = useState({});
   const [userProfile, setUserProfile] = useState({});
   const [userLoading, setUserLoading] = useState(true);
+  const [testLoading, setTestLoading] = useState(false);
   const [userProfileLoading, setUserProfileLoading] = useState(true);
 
   const googleProvider = new GoogleAuthProvider();
@@ -105,7 +106,8 @@ const AuthContextComp = ({ children }) => {
     userRegister,
     userLogout,
     userSocialLogin,
-    getUserJwt
+    getUserJwt,
+    testLoading, setTestLoading
   }
 
   return (

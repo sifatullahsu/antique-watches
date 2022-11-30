@@ -3,8 +3,8 @@ import React, { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaTrashAlt } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
+import DashLoading from '../components/DashLoading';
 import Heading from '../components/Heading';
-import Loading from '../components/Loading';
 import ModalCom from '../components/ModalCom';
 import { AuthContext } from '../contexts/AuthContextComp';
 
@@ -92,7 +92,7 @@ const UsersPage = () => {
 
   if (isLoading || userLoading) {
     return (
-      <Loading></Loading>
+      <DashLoading></DashLoading>
     );
   }
 

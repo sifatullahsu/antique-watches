@@ -2,12 +2,13 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useContext } from 'react';
 import toast from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
+import DashLoading from '../components/DashLoading';
 import Heading from '../components/Heading';
 import { AuthContext } from '../contexts/AuthContextComp';
 
 const EditCategory = () => {
 
-  const { user } = useContext(AuthContext);
+  const { user, testLoading, setTestLoading } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const imageHostKey = process.env.REACT_APP_IMGBB_API;
@@ -15,7 +16,7 @@ const EditCategory = () => {
   const location = useLocation();
   const id = location.pathname.split('/dashboard/categories/')[1];
 
-  const { data: categories = [] } = useQuery({
+  const { data: categories = [], isLoading } = useQuery({
     queryKey: ['categories', location],
     queryFn: async () => {
       if (user?.uid) {
@@ -49,11 +50,18 @@ const EditCategory = () => {
         toast.success('Category update successful..');
         form.reset();
         navigate('/dashboard/categories');
+        setTestLoading(false)
+      })
+      .catch(err => {
+        toast.error('Somthing is wrong..');
+        setTestLoading(false);
       })
   }
 
   const handleEditCategory = (event) => {
     event.preventDefault();
+
+    setTestLoading(true)
 
     const form = event.target;
     const catName = form.catName.value;
@@ -79,6 +87,12 @@ const EditCategory = () => {
     else {
       updateCategoryData({ catName }, form);
     }
+  }
+
+  if (isLoading || testLoading) {
+    return (
+      <DashLoading></DashLoading>
+    );
   }
 
   return (
