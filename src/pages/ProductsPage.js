@@ -109,19 +109,26 @@ const ProductsPage = () => {
                         className="toggle toggle-sm border-gray-200"
                         defaultChecked={product.advertise === 'true' ? 'checked' : undefined}
                         onChange={() => handleAdvertise(product._id, product.advertise)}
+                        disabled={product.itemStatus === 'unsold' ? false : true}
                       />
                     </td>
                     <td className='text-right'>
-                      <Link to={`/dashboard/products/${product._id}`} className='btn btn-ghost btn-sm px-2'>
-                        <FaEdit></FaEdit>
-                      </Link>
-                      <label
-                        htmlFor="delete-modal"
-                        className='btn btn-ghost btn-sm px-2'
-                        onClick={() => setItemDelete(product)}
-                      >
-                        <FaTrashAlt></FaTrashAlt>
-                      </label>
+                      {
+                        product.itemStatus === 'unsold' &&
+                        <>
+                          <Link to={`/dashboard/products/${product._id}`} className='btn btn-ghost btn-sm px-2'>
+                            <FaEdit></FaEdit>
+                          </Link>
+                          <label
+                            htmlFor="delete-modal"
+                            className='btn btn-ghost btn-sm px-2'
+                            onClick={() => setItemDelete(product)}
+                          >
+                            <FaTrashAlt></FaTrashAlt>
+                          </label>
+                        </>
+                      }
+
                     </td>
                   </tr>
                 );
