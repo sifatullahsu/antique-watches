@@ -12,6 +12,7 @@ const BuyNowModal = ({ buyNow, userProfile, orderHandleSubmit, handleBooking, or
 
             <input defaultValue={userProfile?._id} {...orderRegister("userID", { required: true })} readOnly hidden />
             <input defaultValue={buyNow?._id} {...orderRegister("productID", { required: true })} readOnly hidden />
+            <input defaultValue={buyNow?.author} {...orderRegister("author", { required: true })} readOnly hidden />
 
             <div className='grid grid-cols-2 gap-x-5 gap-y-0'>
               <div className="form-control sm">
