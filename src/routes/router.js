@@ -76,10 +76,10 @@ export const router = createBrowserRouter([
         path: 'my-orders',
         element: <PrivateRoute><MyOrderPage></MyOrderPage></PrivateRoute>
       },
-      /*  {
-         path: 'settings',
-         element: <PrivateRoute><SettingsPage></SettingsPage></PrivateRoute>
-       }, */
+      {
+        path: 'settings',
+        element: <PrivateRoute><SettingsPage></SettingsPage></PrivateRoute>
+      },
 
       // For only sellers
       {

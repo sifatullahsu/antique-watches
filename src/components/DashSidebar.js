@@ -53,7 +53,7 @@ const DashSidebar = () => {
         </>
       }
       <span className='uppercase text-xs text-gray-700 mt-5 mb-3'>Action</span>
-      {/* <li><NavLink to='/dashboard/settings'>Settings</NavLink></li> */}
+      <li><NavLink to='/dashboard/settings'>Settings</NavLink></li>
       <li><button onClick={handleUserLogout}>Logout</button></li>
     </ul >
   );

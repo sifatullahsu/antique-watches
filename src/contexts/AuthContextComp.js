@@ -11,6 +11,7 @@ const AuthContextComp = ({ children }) => {
 
   const [user, setUser] = useState({});
   const [userProfile, setUserProfile] = useState({});
+  const [refetchUser, setRefetchUser] = useState(false);
   const [userLoading, setUserLoading] = useState(true);
   const [testLoading, setTestLoading] = useState(false);
   const [userProfileLoading, setUserProfileLoading] = useState(true);
@@ -77,7 +78,7 @@ const AuthContextComp = ({ children }) => {
           setUserProfileLoading(false);
         })
     }
-  }, [user]);
+  }, [user, refetchUser]);
 
 
 
@@ -99,15 +100,15 @@ const AuthContextComp = ({ children }) => {
   const authInfo = {
     user,
     userProfile,
-    userLoading,
-    setUserLoading,
-    userProfileLoading,
+    userLoading, setUserLoading,
+    userProfileLoading, setUserProfileLoading,
     userLogin,
     userRegister,
     userLogout,
     userSocialLogin,
     getUserJwt,
-    testLoading, setTestLoading
+    testLoading, setTestLoading,
+    refetchUser, setRefetchUser
   }
 
   return (
