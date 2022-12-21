@@ -9,7 +9,7 @@ const SettingsPage = () => {
   const imageHostKey = process.env.REACT_APP_IMGBB_API;
 
   const updateProfileData = (data) => {
-    fetch(`http://localhost:5000/users/me?id=${userProfile._id}`, {
+    fetch(`https://antique-watches.vercel.app/users/me?id=${userProfile._id}`, {
       method: 'PATCH',
       headers: {
         'content-type': 'application/json',

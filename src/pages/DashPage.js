@@ -17,7 +17,7 @@ const DashPage = () => {
     queryKey: ['orders', location, userProfile],
     queryFn: async () => {
       if (userProfile?._id) {
-        const res = await fetch(`http://localhost:5000/orders/userid/${userProfile?._id}`, {
+        const res = await fetch(`https://antique-watches.vercel.app/orders/userid/${userProfile?._id}`, {
           headers: {
             authorization: `Bearer ${localStorage.getItem('antique-token')}`
           }
