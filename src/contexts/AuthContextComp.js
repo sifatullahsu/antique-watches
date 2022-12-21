@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
 import app from '../firebase/firebase.init';
 import axios from 'axios';
+import { toast } from 'react-hot-toast';
 
 export const AuthContext = createContext();
 
@@ -74,8 +75,9 @@ const AuthContextComp = ({ children }) => {
           setUserProfileLoading(false);
         })
         .catch(err => {
-          console.log(err);
           setUserProfileLoading(false);
+          userLogout()
+            .then(res => toast.error('Login faild for network inactivity.'));
         })
     }
   }, [user, refetchUser]);
