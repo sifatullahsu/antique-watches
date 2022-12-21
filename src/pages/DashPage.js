@@ -8,12 +8,12 @@ import Heading from '../components/Heading';
 import { AuthContext } from '../contexts/AuthContextComp';
 
 const DashPage = () => {
-  const { user, userProfile } = useContext(AuthContext);
+  const { userProfile } = useContext(AuthContext);
   const location = useLocation();
 
   const [dashData, setDashData] = useState({ totalPurchased: 0, totalCanceled: 0, pendingPayment: 0, totalSpend: 0 });
 
-  const { data: orders = [], isLoading, refetch } = useQuery({
+  const { data: orders = [], isLoading } = useQuery({
     queryKey: ['orders', location, userProfile],
     queryFn: async () => {
       if (userProfile?._id) {
