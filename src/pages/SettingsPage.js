@@ -86,6 +86,12 @@ const SettingsPage = () => {
           <input type='text' defaultValue={userProfile.name} name="name" required />
         </div>
 
+        <div className="form-control">
+          <label className="label"><span className="label-text">Email</span></label>
+          <input type='text' defaultValue={userProfile.email} required readOnly />
+          <span className="label-text text-gray-400">This is readOnly field.</span>
+        </div>
+
         <div className='flex justify-between items-center'>
           <div className="form-control">
             <label className="label">
