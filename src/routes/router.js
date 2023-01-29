@@ -16,6 +16,7 @@ import ProductsPage from "../pages/ProductsPage";
 import RegisterPage from "../pages/RegisterPage";
 import ReportedItemsPage from "../pages/ReportedItemsPage";
 import SettingsPage from "../pages/SettingsPage";
+import ShopPage from "../pages/ShopPage";
 import SingleCategoryPage from "../pages/SingleCategoryPage";
 import UsersPage from "../pages/UsersPage";
 import DashTemp from "../templates/DashTemp";
@@ -41,12 +42,16 @@ export const router = createBrowserRouter([
       },
       {
         path: 'categories',
-        element: <PrivateRoute><AllCategoriesPage></AllCategoriesPage></PrivateRoute>,
+        element: <AllCategoriesPage></AllCategoriesPage>,
         loader: () => fetch('https://antique-watches.vercel.app/categories')
       },
       {
         path: 'categories/:id',
-        element: <PrivateRoute><SingleCategoryPage></SingleCategoryPage></PrivateRoute>
+        element: <SingleCategoryPage></SingleCategoryPage>
+      },
+      {
+        path: 'shop',
+        element: <ShopPage></ShopPage>
       },
       {
         path: 'login',

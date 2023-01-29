@@ -117,7 +117,9 @@ const ProductGrid = ({ product, setBuyNow, setComplaint, userProfile }) => {
         }
         {
           (currentUser.loggedIn === undefined || currentUser.loggedIn !== userProfile._id) &&
-          <div className="ml-5 text-xs font-medium">login for booking</div>
+          <div className="ml-5 text-xs font-medium underline">
+            <Link to='/login'>login for booking</Link>
+          </div>
         }
       </div>
     </div >

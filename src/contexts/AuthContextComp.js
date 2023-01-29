@@ -30,6 +30,7 @@ const AuthContextComp = ({ children }) => {
   }
 
   const userLogout = () => {
+    localStorage.removeItem('antique-token');
     return signOut(auth);
   }
 
@@ -62,12 +63,14 @@ const AuthContextComp = ({ children }) => {
 
 
   useEffect(() => {
-    if (user?.uid) {
+    const token = localStorage.getItem('antique-token');
+
+    if (user?.uid && token) {
       setUserProfileLoading(true);
 
       axios.get(`https://antique-watches.vercel.app/users/uid/${user.uid}`, {
         headers: {
-          authorization: `Bearer ${localStorage.getItem('antique-token')}`
+          authorization: `Bearer ${token}`
         }
       })
         .then(res => {

@@ -3,11 +3,11 @@ import { useForm } from "react-hook-form";
 import toast from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContextComp';
+import DashLoading from './DashLoading';
 import GoogleSignIn from './GoogleSignIn';
-import Loading from './Loading';
 
 const Register = () => {
-  const { userRegister, getUserJwt, userLoading, setUserLoading } = useContext(AuthContext);
+  const { userRegister, getUserJwt, userLoading, refetchUser, setRefetchUser, setUserLoading } = useContext(AuthContext);
   const { register, handleSubmit, reset } = useForm();
   const imageHostKey = process.env.REACT_APP_IMGBB_API;
 
@@ -17,6 +17,7 @@ const Register = () => {
 
 
   const handleRegister = (formData) => {
+    setUserLoading(true);
     const { name, email, password, image, isSeller } = formData;
 
     if (image[0].type !== 'image/png') {
@@ -33,6 +34,7 @@ const Register = () => {
     })
       .then(res => res.json())
       .then(data => {
+        setUserLoading(true);
         reset();
         const imageURL = data.data.url;
 
@@ -53,11 +55,13 @@ const Register = () => {
                 .then(res => res.json())
                 .then(data => {
                   if (data.acknowledged) {
-                    toast.success('User successfully created..');
                     getUserJwt(result.user.email)
                       .then(data => {
                         localStorage.setItem('antique-token', data.token);
+                        setRefetchUser(!refetchUser);
+                        setUserLoading(false);
                         navigate(from, { replace: true });
+                        toast.success('User successfully created..');
                       })
                   }
                 })
@@ -78,7 +82,7 @@ const Register = () => {
 
   if (userLoading) {
     return (
-      <Loading></Loading>
+      <DashLoading></DashLoading>
     );
   }
 

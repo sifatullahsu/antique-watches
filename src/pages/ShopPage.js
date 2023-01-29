@@ -6,18 +6,15 @@ import Loading from '../components/Loading';
 import ProductLoop from '../components/loops/ProductLoop';
 import { AuthContext } from '../contexts/AuthContextComp';
 
-const SingleCategoryPage = () => {
+const ShopPage = () => {
 
   const { userProfile } = useContext(AuthContext);
-
   const location = useLocation();
-  const propsID = location?.pathname.split('/categories/')[1];
-
 
   const { data: products = [], isLoading, refetch } = useQuery({
     queryKey: ['products', location, userProfile],
     queryFn: async () => {
-      const url = `https://antique-watches.vercel.app/products/categories?catID=${propsID}&userID=${userProfile?._id}`;
+      const url = `https://antique-watches.vercel.app/shop/products/?userID=${userProfile?._id}`;
       const res = await fetch(url);
       const data = await res.json();
 
@@ -37,8 +34,8 @@ const SingleCategoryPage = () => {
     <main id='content'>
       <div className="container">
         <Heading
-          title="Categories"
-          text="All categories listed on Antique Watches"
+          title="All Products"
+          text="Here listed all Antique Watches"
         ></Heading>
         <ProductLoop
           products={products}
@@ -49,4 +46,4 @@ const SingleCategoryPage = () => {
   );
 };
 
-export default SingleCategoryPage;
+export default ShopPage;

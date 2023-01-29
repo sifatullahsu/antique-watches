@@ -3,11 +3,11 @@ import { useForm } from "react-hook-form";
 import toast from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContextComp';
+import DashLoading from './DashLoading';
 import GoogleSignIn from './GoogleSignIn';
-import Loading from './Loading';
 
 const Login = () => {
-  const { userLogin, getUserJwt, userLoading, setUserLoading } = useContext(AuthContext);
+  const { userLogin, getUserJwt, userLoading, refetchUser, setRefetchUser, setUserLoading } = useContext(AuthContext);
   const { register, handleSubmit, reset } = useForm();
 
   const navigate = useNavigate();
@@ -24,6 +24,7 @@ const Login = () => {
         getUserJwt(result.user.email)
           .then(data => {
             localStorage.setItem('antique-token', data.token);
+            setRefetchUser(!refetchUser);
             navigate(from, { replace: true });
           })
       })
@@ -36,7 +37,7 @@ const Login = () => {
 
   if (userLoading) {
     return (
-      <Loading></Loading>
+      <DashLoading></DashLoading>
     );
   }
 

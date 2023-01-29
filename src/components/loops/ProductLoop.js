@@ -61,7 +61,7 @@ const ProductLoop = ({ products, refetch, isSlider }) => {
         <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
           {
             products.map(product => <ProductGrid
-              key={product._id}
+              key={product?._id}
               product={product}
               setBuyNow={setBuyNow}
               setComplaint={setComplaint}
