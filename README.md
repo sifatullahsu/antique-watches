@@ -8,7 +8,7 @@ Live Link: [https://antique-watches.web.app](https://antique-watches.web.app)
 Client Repository: [https://github.com/sifatullahsu/antique-watches](https://github.com/sifatullahsu/antique-watches)
 
 Server Repository: [https://github.com/sifatullahsu/antique-watches-server](https://github.com/sifatullahsu/antique-watches-server)
-### Author Info
+
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/sifatullahsu)
 
 ### Here We Used
