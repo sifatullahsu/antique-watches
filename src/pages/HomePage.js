@@ -23,6 +23,11 @@ import testimonial1 from '../assets/images/testimonial-img-01.jpg';
 import testimonial2 from '../assets/images/testimonial-img-02.jpg';
 import testimonial3 from '../assets/images/testimonial-img-03.jpg';
 
+import achievement1 from '../assets/images/achievement1.png';
+import achievement2 from '../assets/images/achievement2.png';
+import achievement3 from '../assets/images/achievement3.png';
+import achievement4 from '../assets/images/achievement4.png';
+
 const HomePage = () => {
 
   const location = useLocation();
@@ -133,8 +138,24 @@ const HomePage = () => {
         </div>
       </section>
 
-      <section>
-        <div className="container py-10">
+      <section className='content bg-primary'>
+        <div className="container">
+          <Heading
+            title='Our Achievement'
+            isDark={true}
+          ></Heading>
+
+          <div className='grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-5'>
+            <div className='bg-accent py-4 px-8 lg:px-10 rounded'><img src={achievement1} alt="" /></div>
+            <div className='bg-accent py-4 px-8 lg:px-10 rounded'><img src={achievement2} alt="" /></div>
+            <div className='bg-accent py-4 px-8 lg:px-10 rounded'><img src={achievement3} alt="" /></div>
+            <div className='bg-accent py-4 px-8 lg:px-10 rounded'><img src={achievement4} alt="" /></div>
+          </div>
+        </div>
+      </section>
+
+      <section className='content'>
+        <div className="container">
           <Swiper
             slidesPerView={1}
             spaceBetween={25}
