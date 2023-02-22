@@ -12,6 +12,16 @@ import icon2 from '../assets/images/icon2.png';
 import icon3 from '../assets/images/icon3.png';
 import handwithwatch from '../assets/images/handwithwatch.jpg';
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Navigation } from "swiper";
+import 'swiper/css';
+import "swiper/css/free-mode";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+
+import testimonial1 from '../assets/images/testimonial-img-01.jpg';
+import testimonial2 from '../assets/images/testimonial-img-02.jpg';
+import testimonial3 from '../assets/images/testimonial-img-03.jpg';
 
 const HomePage = () => {
 
@@ -38,6 +48,27 @@ const HomePage = () => {
       return data;
     }
   });
+
+  const testimonials = [
+    {
+      name: 'Jhon Doe',
+      designation: 'CEO',
+      img: testimonial1,
+      testimonials: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt vero harum corporis unde molestiae iusto debitis modi deleniti neque doloremque, rerum nesciunt culpa cumque odit minus! Nulla odit cumque illum dolore, dolores ipsam, qui numquam blanditiis impedit atque, eveniet vitae. Magnam voluptatum exercitationem libero ducimus excepturi totam modi est. Ratione?'
+    },
+    {
+      name: 'Jhon Doe',
+      designation: 'CEO',
+      img: testimonial2,
+      testimonials: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt vero harum corporis unde molestiae iusto debitis modi deleniti neque doloremque, rerum nesciunt culpa cumque odit minus! Nulla odit cumque illum dolore, dolores ipsam, qui numquam blanditiis impedit atque, eveniet vitae. Magnam voluptatum exercitationem libero ducimus excepturi totam modi est. Ratione?'
+    },
+    {
+      name: 'Jhon Doe',
+      designation: 'CEO',
+      img: testimonial3,
+      testimonials: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt vero harum corporis unde molestiae iusto debitis modi deleniti neque doloremque, rerum nesciunt culpa cumque odit minus! Nulla odit cumque illum dolore, dolores ipsam, qui numquam blanditiis impedit atque, eveniet vitae. Magnam voluptatum exercitationem libero ducimus excepturi totam modi est. Ratione?'
+    },
+  ]
 
 
   if (isLoading || isLoadingCat) {
@@ -101,6 +132,38 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+
+      <section>
+        <div className="container py-10">
+          <Swiper
+            slidesPerView={1}
+            spaceBetween={25}
+            pagination={{
+              clickable: true,
+            }}
+            navigation={true}
+            modules={[Pagination, Navigation]}
+            className="mySwiper"
+          >
+            {
+              testimonials.map((testimonial, index) => {
+                return (
+                  <SwiperSlide key={index}>
+                    <div className='text-center max-w-3xl mx-auto px-5'>
+                      <img src={testimonial.img} alt="" className='w-24 rounded-full mx-auto mb-5' />
+                      <p>{testimonial.testimonials}</p>
+                      <h5 className=' mt-5'>{testimonial.name}</h5>
+                      <span className='uppercase text-xs text-gray-400'>{testimonial.designation}</span>
+                    </div>
+                  </SwiperSlide>
+                );
+              })
+            }
+          </Swiper >
+        </div>
+      </section>
+
+
     </main>
   );
 };
