@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Heading from '../components/Heading';
 import Hero from '../components/Hero';
 import Loading from '../components/Loading';
@@ -13,7 +13,7 @@ import icon3 from '../assets/images/icon3.png';
 import handwithwatch from '../assets/images/handwithwatch.jpg';
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation } from "swiper";
+import { Pagination } from "swiper";
 import 'swiper/css';
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
@@ -162,15 +162,14 @@ const HomePage = () => {
             pagination={{
               clickable: true,
             }}
-            navigation={true}
-            modules={[Pagination, Navigation]}
+            modules={[Pagination]}
             className="mySwiper"
           >
             {
               testimonials.map((testimonial, index) => {
                 return (
                   <SwiperSlide key={index}>
-                    <div className='text-center max-w-3xl mx-auto px-5'>
+                    <div className='text-center max-w-3xl mx-auto'>
                       <img src={testimonial.img} alt="" className='w-24 rounded-full mx-auto mb-5' />
                       <p>{testimonial.testimonials}</p>
                       <h5 className=' mt-5'>{testimonial.name}</h5>
@@ -184,6 +183,18 @@ const HomePage = () => {
         </div>
       </section>
 
+      <section className='pb-[5rem]'>
+        <div className="container">
+          <div className='bg-primary rounded p-10 md:p-20'>
+
+            <div className='md:flex justify-between items-center space-y-5 md:space-y-0'>
+              <h3 className='text-white'>Are you ready <br />to continue with us?</h3>
+              <Link to='/shop' className="btn btn-outline btn-secondary">Shop Now</Link>
+            </div>
+
+          </div>
+        </div>
+      </section>
 
     </main>
   );
